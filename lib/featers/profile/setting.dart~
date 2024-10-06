@@ -1,0 +1,79 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:untitled2/componants/constants/constanat.dart';
+import 'package:untitled2/cubit/mandoub_cubit.dart';
+import 'package:untitled2/shared%20prefrence/shared%20prefrence.dart';
+import '../../componants/colors/theme_model.dart';
+
+class Setting extends StatelessWidget {
+  const Setting({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    var items = [
+      'English Language',
+      'اللغه العربيه',
+    ];
+    return BlocConsumer<MandoubCubit, MandoubState>(
+  listener: (context, state) {
+    // TODO: implement listener
+  },
+  builder: (context, state) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(dropdownValue=='English Language'?'Settings':'الاعدادات'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: dropdownValue!='English Language'?CrossAxisAlignment.end:CrossAxisAlignment.start,
+          children: [
+            Text(dropdownValue=='English Language'?'Choose language':'اختار اللغه',
+              style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                languageAndThem(false,'English',"assets/english.png",dropdownValue=='English Language'?Icons.check:null,dropdownValue=='English Language'?ThemeModel.mainColor: Colors.transparent,'English Language',dropdownValue=='English Language'?ThemeModel.mainColor:isDark??false?ThemeModel.of(context).greyFontColor:ThemeModel.of(context).greyFontColor,context),
+                languageAndThem(false,'عربى',"assets/arabic.png",dropdownValue!='English Language'?Icons.check:null,dropdownValue!='English Language'?ThemeModel.mainColor: Colors.transparent, 'اللغة العربيه',dropdownValue!='English Language'?ThemeModel.mainColor:isDark??false?ThemeModel.of(context).greyFontColor:ThemeModel.of(context).greyFontColor,context),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  },
+);
+  }
+}
+Widget languageAndThem(them,text,flag,icon,color,onTapLang,textBorderColor,context,)=>SizedBox(
+  height: 150,
+  width: 150,
+  child: InkWell(
+    onTap: (){Save.savedata(key: 'lang', value:onTapLang ).then((value){
+      dropdownValue=onTapLang;
+      MandoubCubit.get(context).changeLanguage();
+    });},
+    child: Card(
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(right: 10.0,top: 10),
+            child: Align( alignment: Alignment.topRight,child: CircleAvatar(backgroundColor:color,radius:10,child: Icon(icon,size: 18,color: Colors.white,))),
+          ),
+          Container(
+            padding: EdgeInsets.all(10),
+            width: 60,
+            height: 50,
+            decoration:  BoxDecoration(
+              border: Border.all(color: textBorderColor,width: 1),
+            ),
+            child: them?Icon(flag,color: textBorderColor,):Image.asset(flag),
+          ),
+          Spacer(),
+          Text(text,style: TextStyle(color: textBorderColor,fontWeight: FontWeight.w600),),
+          SizedBox(height: 15,)
+        ],
+      ),
+    ),
+  ),
+);
