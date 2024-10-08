@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:untitled2/cubit/rider_cubit.dart';
 import 'package:untitled2/shared_prefrence/shared%20prefrence.dart';
 
@@ -29,23 +30,26 @@ class MyApp extends StatelessWidget {
           ..getRiderData()
           ..changeLanguage(fromCache: language ?? 'ar'),
         child: BlocBuilder<RiderCubit, MandoubState>(builder: (context, state) {
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'Bottom Sheet Example',
-            darkTheme: darkMode,
-            themeMode: isDark ?? false ? ThemeMode.dark : ThemeMode.light,
-            home: token != null ? const HomePage() : LoginScreen(),
-            locale: Locale(RiderCubit.get(context).lang),
-            localizationsDelegates: const [
-              AppLocale.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: const [
-              Locale('ar'), // Arabic
-              Locale('en'), // English
-            ],
+          return ScreenUtilInit(
+            designSize: const Size(428, 926),
+            child: MaterialApp(
+              debugShowCheckedModeBanner: false,
+              title: 'Mandoub Hangur',
+              darkTheme: darkMode,
+              themeMode: isDark ?? false ? ThemeMode.dark : ThemeMode.light,
+              home: token != null ? const HomePage() : LoginScreen(),
+              locale: Locale(RiderCubit.get(context).lang),
+              localizationsDelegates: const [
+                AppLocale.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: const [
+                Locale('ar'), // Arabic
+                Locale('en'), // English
+              ],
+            ),
           );
         }));
   }

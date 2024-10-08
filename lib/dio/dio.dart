@@ -5,7 +5,7 @@ class DioHelper {
   static init() {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'https://hunger-station-clone.vercel.app/',
+        baseUrl: 'http://147.79.114.89:5050/',
         receiveDataWhenStatusError: true,
       ),
     );
@@ -17,7 +17,7 @@ class DioHelper {
     Map<String, dynamic>? query,
     String? token,
   }) async {
-     dio!.options.headers = {
+    dio!.options.headers = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token'
     };
@@ -25,55 +25,59 @@ class DioHelper {
   }
 
   static Future<Response> postData({
-    required String url, // is the path that i will move in it will change while bring data so i need to make a parameter form it so when it is changed i see this change
+    required String
+        url, // is the path that i will move in it will change while bring data so i need to make a parameter form it so when it is changed i see this change
     Map<String, dynamic>? query,
-    Map<String, dynamic>? data ,
+    Map<String, dynamic>? data,
     String? token,
-  }) async
-  {
-    dio!.options.headers={
-      'Content-Type' : 'application/json',
-      'lang' : 'ar',
-      'Authorization':token??'',
+  }) async {
+    dio!.options.headers = {
+      'Content-Type': 'application/json',
+      'lang': 'ar',
+      'Authorization': token ?? '',
     };
     return dio!.post(
       url,
       queryParameters: query,
       data: data,
-    );  }
+    );
+  }
 
   static Future<Response> putData({
-    required String url, // is the path that i will move in it will change while bring data so i need to make a parameter form it so when it is changed i see this change
+    required String
+        url, // is the path that i will move in it will change while bring data so i need to make a parameter form it so when it is changed i see this change
     Map<String, dynamic>? query,
-    required Map<String, dynamic> data ,
+    required Map<String, dynamic> data,
     String? token,
-  }) async
-  {
-    dio!.options.headers={
-      'Content-Type' : 'application/json',
-      'lang' : 'ar',
-      'Authorization':token??'',
+  }) async {
+    dio!.options.headers = {
+      'Content-Type': 'application/json',
+      'lang': 'ar',
+      'Authorization': token ?? '',
     };
     return dio!.put(
       url,
       queryParameters: query,
       data: data,
-    );  }
+    );
+  }
+
   static Future<Response> patchData({
-    required String url, // is the path that i will move in it will change while bring data so i need to make a parameter form it so when it is changed i see this change
+    required String
+        url, // is the path that i will move in it will change while bring data so i need to make a parameter form it so when it is changed i see this change
     Map<String, dynamic>? query,
-    required Map<String, dynamic> data ,
+    required Map<String, dynamic> data,
     String? token,
-  }) async
-  {
-    dio!.options.headers={
-      'Content-Type' : 'application/json',
-      'lang' :'en',
+  }) async {
+    dio!.options.headers = {
+      'Content-Type': 'application/json',
+      'lang': 'en',
       'Authorization': 'Bearer $token',
     };
     return dio!.patch(
       url,
       queryParameters: query,
       data: data,
-    );  }
+    );
+  }
 }

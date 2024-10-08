@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:untitled2/common/translate/app_local.dart';
 import 'package:untitled2/cubit/rider_cubit.dart';
+
 import '../../../common/colors/theme_model.dart';
 import '../../../common/components.dart';
 import '../../../common/constants/constanat.dart';
@@ -63,8 +64,14 @@ class _LoginSignupScreenState extends State<LoginScreen> {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               backgroundColor: Colors.green.shade400,
-              content:  Align(
-                  alignment: Alignment.center,child: Text(language=='English Language'?"Login successfully":'تم تسجيل الدخول بنجاح',style: TextStyle(color: Colors.white,fontSize: 17),)),
+              content: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    language == 'English Language'
+                        ? "Login successfully"
+                        : 'تم تسجيل الدخول بنجاح',
+                    style: const TextStyle(color: Colors.white, fontSize: 17),
+                  )),
             ));
           });
           navigateAndFinish(context, const HomePage());
@@ -72,8 +79,14 @@ class _LoginSignupScreenState extends State<LoginScreen> {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               backgroundColor: Colors.red.shade400,
-              content:  Align(
-                  alignment: Alignment.center,child: Text(language=='English Language'?"Residency number or Password is not valid":'رقم الاقامة او كلمة المرور خطاء',style: TextStyle(color: Colors.white,fontSize: 17),)),
+              content: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    language == 'English Language'
+                        ? "Residency number or Password is not valid"
+                        : 'رقم الاقامة او كلمة المرور خطاء',
+                    style: const TextStyle(color: Colors.white, fontSize: 17),
+                  )),
             ));
           });
         }
@@ -96,22 +109,22 @@ class _LoginSignupScreenState extends State<LoginScreen> {
                     ),
                   ),
                   child: Container(
-                    padding: EdgeInsets.only(top: 90, left: 20),
+                    padding: const EdgeInsets.only(top: 90, left: 20),
                     color: ThemeModel.mainColor.withOpacity(.30),
                   ),
                 ),
               ),
               AnimatedPositioned(
-                duration: Duration(milliseconds: 700),
+                duration: const Duration(milliseconds: 700),
                 curve: Curves.bounceInOut,
                 top: 200,
                 child: AnimatedContainer(
-                  duration: Duration(milliseconds: 700),
+                  duration: const Duration(milliseconds: 700),
                   curve: Curves.bounceInOut,
                   height: 250,
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   width: MediaQuery.of(context).size.width - 40,
-                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(15),
@@ -129,11 +142,11 @@ class _LoginSignupScreenState extends State<LoginScreen> {
                 ),
               ),
               state is LoginLoading
-                  ? Center(child: SpinKitWave(
-                  color: Colors.grey.shade600,
-                  size: 25.0))
+                  ? Center(
+                      child:
+                          SpinKitWave(color: Colors.grey.shade600, size: 25.0))
                   : buildBottomHalfContainer(
-                  false, idController.text, passwordController.text),
+                      false, idController.text, passwordController.text),
             ],
           ),
         );
@@ -142,9 +155,9 @@ class _LoginSignupScreenState extends State<LoginScreen> {
   }
 
   Container buildSigninSection() {
-     bool password=true;
+    bool password = true;
     return Container(
-      margin: EdgeInsets.only(top: 20),
+      margin: const EdgeInsets.only(top: 20),
       child: Column(
         children: [
           buildTextField(
@@ -152,7 +165,9 @@ class _LoginSignupScreenState extends State<LoginScreen> {
             Strings.iqamaNumber.tr(context),
             false,
             TextInputType.number,
-            isFocus1 ? ThemeModel.mainColor : ThemeModel.of(context).greyFontColor,
+            isFocus1
+                ? ThemeModel.mainColor
+                : ThemeModel.of(context).greyFontColor,
             idController,
             10,
             idFocusNode,
@@ -163,7 +178,9 @@ class _LoginSignupScreenState extends State<LoginScreen> {
             Strings.enterYourPassword.tr(context),
             true,
             TextInputType.text,
-            isFocus2 ? ThemeModel.mainColor : ThemeModel.of(context).greyFontColor,
+            isFocus2
+                ? ThemeModel.mainColor
+                : ThemeModel.of(context).greyFontColor,
             passwordController,
             20,
             passwordFocusNode,
@@ -173,11 +190,12 @@ class _LoginSignupScreenState extends State<LoginScreen> {
             alignment: Alignment.topRight,
             child: TextButton(
               onPressed: () {
-                navigate(context, ForgetPassword());
+                navigate(context, const ForgetPassword());
               },
               child: Text(
                 Strings.forgotPassword.tr(context),
-                style: TextStyle(fontSize: 14, color: ThemeModel.of(context).textColor1),
+                style: TextStyle(
+                    fontSize: 14, color: ThemeModel.of(context).textColor1),
               ),
             ),
           ),
@@ -189,9 +207,9 @@ class _LoginSignupScreenState extends State<LoginScreen> {
   Widget buildBottomHalfContainer(bool showShadow, String id, String password) {
     return Center(
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 35),
+        margin: const EdgeInsets.symmetric(horizontal: 35),
         height: 70,
-        padding: EdgeInsets.all(15),
+        padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(50),
@@ -200,12 +218,12 @@ class _LoginSignupScreenState extends State<LoginScreen> {
           Strings.login.tr(context),
           activeBottom && activeBottomNew
               ? () {
-            RiderCubit.get(context).riderLogin(
-              residencyNumber: id,
-              password: password,
-              context: context,
-            );
-          }
+                  RiderCubit.get(context).riderLogin(
+                    residencyNumber: id,
+                    password: password,
+                    context: context,
+                  );
+                }
               : null,
         ),
       ),
