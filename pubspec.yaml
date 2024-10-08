@@ -57,6 +57,7 @@ dependencies:
   http_parser: ^4.0.2
   file_picker: ^8.1.2
   image_picker: ^1.0.0
+  mvc_pattern: ^8.12.0
 
 
 

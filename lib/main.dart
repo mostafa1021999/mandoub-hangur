@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:untitled2/cubit/rider_cubit.dart';
 import 'package:untitled2/shared_prefrence/shared%20prefrence.dart';
+
+import 'Utilities/git_it.dart';
 import 'common/constants/constanat.dart';
 import 'common/translate/app_local.dart';
 import 'dio/dio.dart';
 import 'featers/auth/screens/login.dart';
 import 'featers/home/screen/home.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await GitIt.initGitIt();
   DioHelper.init();
   await Save.init();
   runApp(const MyApp());
@@ -22,9 +25,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => RiderCubit()..getRiderData()..changeLanguage(fromCache: language ?? 'ar'),
-      child: BlocBuilder<RiderCubit, MandoubState>(
-        builder: (context,state) {
+        create: (context) => RiderCubit()
+          ..getRiderData()
+          ..changeLanguage(fromCache: language ?? 'ar'),
+        child: BlocBuilder<RiderCubit, MandoubState>(builder: (context, state) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Bottom Sheet Example',
@@ -43,6 +47,6 @@ class MyApp extends StatelessWidget {
               Locale('en'), // English
             ],
           );
-  }));
+        }));
   }
 }
