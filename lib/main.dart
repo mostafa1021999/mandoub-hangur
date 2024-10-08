@@ -9,7 +9,7 @@ import 'Utilities/git_it.dart';
 import 'common/constants/constanat.dart';
 import 'common/translate/app_local.dart';
 import 'dio/dio.dart';
-import 'featers/auth/screens/login.dart';
+import 'featers/auth/Login/login.dart';
 import 'featers/home/screen/home.dart';
 
 void main() async {
@@ -26,9 +26,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) => RiderCubit()
-          ..getRiderData()
-          ..changeLanguage(fromCache: language ?? 'ar'),
+        create: (context) =>
+            RiderCubit()..changeLanguage(fromCache: language ?? 'ar'),
         child: BlocBuilder<RiderCubit, MandoubState>(builder: (context, state) {
           return ScreenUtilInit(
             designSize: const Size(428, 926),

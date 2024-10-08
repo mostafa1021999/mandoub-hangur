@@ -7,16 +7,11 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../common/components.dart';
 import '../common/constants/constanat.dart';
-import '../dio/dio.dart';
 import '../featers/Profile/profile_view.dart';
-import '../featers/home/screen/home.dart';
 import '../featers/home/screen/main_page.dart';
 import '../featers/last_orders/last_orders.dart';
 import '../featers/order_handle/order_handle.dart';
-import '../model/get_rider_data_model.dart';
-import '../model/login_model.dart';
 import '../shared_prefrence/shared prefrence.dart';
 
 part 'rider_state.dart';
@@ -130,42 +125,26 @@ class RiderCubit extends Cubit<MandoubState> {
     emit(GetMap());
   }
 
-  LoginToke? loginToken;
-  void riderLogin(
-      {required String residencyNumber,
-      required String password,
-      required context}) {
-    emit(LoginLoading());
-    DioHelper.postData(
-            url: 'delivery-partners/login',
-            data: {'residencyNumber': residencyNumber, 'password': password})
-        .then((value) {
-      loginToken = LoginToke.fromJson(value.data);
-      token = loginToken!.token;
-      Save.savedata(key: 'token', value: token).then((value) {
-        navigateAndFinish(context, const HomePage());
-        getRiderData();
-      });
-      emit(LoginSuccess());
-    }).catchError((error) {
-      print(error.toString());
-      emit(LoginError());
-    });
-  }
-
-  RiderData? getData;
-  void getRiderData() {
-    emit(GetRiderLoading());
-    DioHelper.getData(
-      url: 'delivery-partners/auth/me',
-      token: token,
-    ).then((value) {
-      getData = RiderData.fromJson(value.data);
-      print(value.data);
-      emit(GetRiderSuccess());
-    }).catchError((error) {
-      print(error.toString());
-      emit(GetRiderError());
-    });
-  }
+  // LoginToke? loginToken;
+  // void riderLogin(
+  //     {required String residencyNumber,
+  //     required String password,
+  //     required context}) {
+  //   emit(LoginLoading());
+  //   DioHelper.postData(
+  //           url: 'delivery-partners/login',
+  //           data: {'residencyNumber': residencyNumber, 'password': password})
+  //       .then((value) {
+  //     loginToken = LoginToke.fromJson(value.data);
+  //     token = loginToken!.token;
+  //     Save.savedata(key: 'token', value: token).then((value) {
+  //       navigateAndFinish(context, const HomePage());
+  //       // getRiderData();
+  //     });
+  //     emit(LoginSuccess());
+  //   }).catchError((error) {
+  //     print(error.toString());
+  //     emit(LoginError());
+  //   });
+  // }
 }

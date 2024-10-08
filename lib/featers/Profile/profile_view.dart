@@ -9,7 +9,7 @@ import '../../common/components.dart';
 import '../../common/constants/constanat.dart';
 import '../../common/translate/strings.dart';
 import '../../shared_prefrence/shared prefrence.dart';
-import '../auth/screens/login.dart';
+import '../auth/Login/login.dart';
 import 'navigators/UserData/user_data_view.dart';
 import 'navigators/setting.dart';
 import 'navigators/support.dart';
@@ -60,7 +60,6 @@ class _ProfileViewState extends StateMVC<ProfileView> {
                           text: Strings.myInformation.tr(context),
                           hasNavigation: true,
                           onTap: () {
-                            RiderCubit.get(context).getRiderData();
                             navigate(context, const UserData());
                           },
                         ),
