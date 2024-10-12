@@ -84,7 +84,7 @@ class _LoginSignupScreenState extends StateMVC<LoginScreen> {
             top: 200,
             child:Container(
 
-            //  height: 250,
+              height: 250,
               padding: const EdgeInsets.all(20),
               width: MediaQuery.of(context).size.width - 40,
               margin: const EdgeInsets.symmetric(horizontal: 20),
