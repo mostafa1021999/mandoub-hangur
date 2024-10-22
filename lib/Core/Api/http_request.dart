@@ -5,6 +5,7 @@ import 'dart:io';
 // import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:untitled2/common/constants/constanat.dart';
 
 // import 'package:identification/Utilities/router_config.dart';
 // import 'package:identification/Utilities/shared_preferences.dart';
@@ -20,6 +21,7 @@ class HttpRequestHandler {
   final List<MultipartFile> files;
   final Map<String, String>? headers;
   final String method;
+   String? token;
 
   HttpRequestHandler.post({
     required String url,
@@ -168,7 +170,7 @@ class _ApiBaseHelper {
       request.headers.addAll({
         'Accept': '*/*',
         'content-type': 'application/json',
-        "Authorization": "Bearer ${SharedPref.getToken()}",
+        "Authorization": "Bearer ${token!=null?token:SharedPref.getToken()}",
         "lat": SharedPref.getLatLng()?[0] ?? "",
         "lng": SharedPref.getLatLng()?[1] ?? "",
         // "lang": CURRENT_CONTEXT!.locale.languageCode

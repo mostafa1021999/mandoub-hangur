@@ -20,17 +20,19 @@ class LastOrder extends StatelessWidget {
     List deliveryIcons=[Icons.card_travel,Icons.access_time,Icons.monetization_on_outlined];
     List deliveryNames=[Strings.order.tr(context),Strings.attendance.tr(context),Strings.cash.tr(context)];
     List<List> insideData=[[Strings.totalOrders.tr(context),Strings.deliveryRate.tr(context),Strings.totalCheckInTime.tr(context),],[Strings.workingHours.tr(context),],[Strings.totalCashCollected.tr(context)]];
+    List<List> typeData=[[Strings.order.tr(context),Strings.order.tr(context),'',],[Strings.hours.tr(context),],[Strings.sar.tr(context)]];
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: ListView(children: [
-          InkWell(
-            onTap:(){RiderCubit.get(context).goSpacificDay(context);},
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text(Strings.performance.tr(context),style:const TextStyle(fontWeight: FontWeight.bold,fontSize: 23),),
-                Container(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text(Strings.performance.tr(context),style:const TextStyle(fontWeight: FontWeight.bold,fontSize: 23),),
+              InkWell(
+                onTap:(){RiderCubit.get(context).goSpacificDay(context);},
+                child: Container(
                     padding:const EdgeInsets.all(5),
                     decoration: BoxDecoration(color: ThemeModel.of(context).greyFontColor.withOpacity(0.3),borderRadius: BorderRadius.circular(10)),
                     child: Row(
@@ -39,9 +41,9 @@ class LastOrder extends StatelessWidget {
                         const SizedBox(width: 5,),
                         Text(Strings.day.tr(context))
                       ],
-                    ))
-              ],
-            ),
+                    )),
+              )
+            ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -80,7 +82,7 @@ class LastOrder extends StatelessWidget {
                 crossAxisCount: 2,
                   childAspectRatio: 1/0.5,
                   children: List.generate(insideData[index].length, (indexNew) {
-                  return deliveryMandoube(insideData[index][indexNew],context);
+                  return deliveryMandoube(insideData[index][indexNew],typeData[index][indexNew],context);
                 },
                 ))
                 ],
@@ -95,7 +97,7 @@ class LastOrder extends StatelessWidget {
 Widget topData(topName,topIcon,context)=>Row(children: [CircleAvatar(backgroundColor: Colors.grey.shade300,radius: 18, child: Icon(topIcon)),
 const SizedBox(width: 5,),Text('$topName',style: TextStyle(color:ThemeModel.of(context).greyFontColor,fontWeight: FontWeight.w500,fontSize: 20),),
 ],);
-Widget deliveryMandoube(nameCard,context)=>Card(
+Widget deliveryMandoube(nameCard,String type,context)=>Card(
   color: ThemeModel.of(context).cardColor,
   child: Column(
   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -104,6 +106,6 @@ Widget deliveryMandoube(nameCard,context)=>Card(
     Text('$nameCard',style: TextStyle(color: ThemeModel.of(context).greyFontColor,fontWeight: FontWeight.w500),),
     Row(children: [const Text('10',style: TextStyle(fontSize: 22.0,fontWeight: FontWeight.bold),),
       const SizedBox(width: 5,),
-      Text('order',style: TextStyle(color: ThemeModel.of(context).greyFontColor,fontWeight: FontWeight.w500),),
+      Text(type,style: TextStyle(color: ThemeModel.of(context).greyFontColor,fontWeight: FontWeight.w500),),
     ],)
   ],),);

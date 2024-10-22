@@ -7,7 +7,7 @@ import '../../../common/colors/theme_model.dart';
 import '../../../common/components.dart';
 import '../../../common/images/images.dart';
 import '../../../common/translate/strings.dart';
-import '../screens/forget_password.dart';
+import '../forget_password/forget_password.dart';
 import 'login_controller.dart';
 
 class LoginScreen extends StatefulWidget {
