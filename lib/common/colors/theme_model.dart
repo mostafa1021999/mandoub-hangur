@@ -54,6 +54,10 @@ class ThemeModel {
   final Color moneyColor;
   final Color brownColor;
   final Color cardColor;
+  final Color font1;
+  final Color font2;
+  final Color font3;
+  final Color font4;
   ThemeModel.light({
     this.greyFontColor = Colors.grey,
     this.backgroundColor = const Color(0xFFECF3F9),
@@ -62,5 +66,9 @@ class ThemeModel {
     this.moneyColor = Colors.green,
     this.brownColor = Colors.brown,
     this.cardColor = Colors.white,
+    this.font1 = const Color(0xFF0E111A),
+    this.font2 = const Color(0xFF878787),
+    this.font3 = const Color(0xFFC5C5C5),
+    this.font4 = const Color(0xFFE5E5E5),
   }); // Safety check// Safety check
 }

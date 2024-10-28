@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:untitled2/Utilities/shared_preferences.dart';
+import 'package:untitled2/common/translate/app_local.dart';
+import 'package:untitled2/common/translate/strings.dart';
 
 import '../../../common/components.dart';
 import '../../../common/constants/constanat.dart';
@@ -48,9 +50,7 @@ class LoginController extends ControllerMVC {
         content: Align(
             alignment: Alignment.center,
             child: Text(
-              language == 'English Language'
-                  ? "Residency number or Password is not valid"
-                  : 'رقم الاقامة او كلمة المرور خطاء',
+              Strings.loginFailed.tr(context),
               style: const TextStyle(color: Colors.white, fontSize: 17),
             )),
       ));
@@ -62,9 +62,7 @@ class LoginController extends ControllerMVC {
         content: Align(
             alignment: Alignment.center,
             child: Text(
-              language == 'English Language'
-                  ? "Login successfully"
-                  : 'تم تسجيل الدخول بنجاح',
+              Strings.loginSuccessfully.tr(context),
               style: const TextStyle(color: Colors.white, fontSize: 17),
             )),
       ));

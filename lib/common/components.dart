@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:untitled2/common/translate/app_local.dart';
+import 'package:untitled2/common/translate/strings.dart';
 import 'package:untitled2/cubit/rider_cubit.dart';
 
 import 'colors/theme_model.dart';
@@ -109,17 +111,13 @@ Widget orderDesign(restaurant,distance,time,name,locationName,context)=>Row(
 );
 Widget buildTextField(
     IconData icon, String hintText, bool isPassword, type,iconColor,controller,maxLength,focus,context) {
-
   return StatefulBuilder(
     builder:(context,setState)=> Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: TextFormField(
         validator: isPassword?(value){
-          if (value == null || value.isEmpty) {
-            return 'Please enter a password';
-          }
-          if (!isPasswordComplex(value)) {
-            return 'Password must be complex (at least 8 characters, including uppercase, lowercase, digit, and special character)';
+          if (!isPasswordComplex(value!)) {
+            return Strings.enterPasswordGreater.tr(context);
           }
           return null;
         }:null,
@@ -159,7 +157,7 @@ bool isPasswordComplex(String password) {
   final hasUppercase = password.contains(RegExp(r'[A-Z]'));
   final hasLowercase = password.contains(RegExp(r'[a-z]'));
   final hasDigit = password.contains(RegExp(r'[0-9]'));
-  final hasSpecialChar = password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
+  final hasSpecialChar = password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>-]'));
   final hasMinLength = password.length >= 8;
 
   // Check if the password meets the complexity requirements

@@ -4,7 +4,7 @@ import '../colors/theme_model.dart';
 
 bool? isDark=Save.getdata(key: 'isdark')??false;
 String ?language=Save.getdata(key: 'lang')??'ar';
-dynamic token=Save.getdata(key: 'token');
+String ?token;
 ThemeData lightMode=ThemeData(
     fontFamily: language=='English Language'? 'fonten':'fontTop',
     primarySwatch: Colors.deepOrange,

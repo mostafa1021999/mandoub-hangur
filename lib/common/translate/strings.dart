@@ -34,6 +34,7 @@ class Strings{
   static const String cash = "cash";
   static const String day = "day";
   static const String sar = "sar";
+  static const String hours = "hours";
   static const String orderMoney = "order_money";
   static const String thereNoOrdersNow = "there_no_orders_now";
   static const String acceptOrder = "accept_order";
@@ -46,4 +47,16 @@ class Strings{
   static const String rate = "rate";
   static const String rateCount= "rate_count";
   static const String editInformation= "edit_information";
+  static const String callCenter = "call_center";
+  static const String loginFailed= "login_failed";
+  static const String loginSuccessfully = "login_successfully";
+  static const String failedSendOtp= "failed_send_otp";
+  static const String codeSentSuccessfully = "code_sent_successfully";
+  static const String failedCheckCode= "failed_check_code";
+  static const String checkCodeSuccessfully = "check_code_successfully";
+  static const String resend= "resend";
+  static const String resendCodeAfter = "resend_code_after";
+  static const String enterPasswordGreater = "enter_password_greater";
+  static const String passwordChangedSuccessfully= "password_changed_successfully";
+  static const String passwordNotMatch = "password_not_match";
 }

@@ -6,6 +6,7 @@ import 'package:untitled2/cubit/rider_cubit.dart';
 import 'package:untitled2/shared_prefrence/shared%20prefrence.dart';
 
 import 'Utilities/git_it.dart';
+import 'Utilities/shared_preferences.dart';
 import 'common/constants/constanat.dart';
 import 'common/translate/app_local.dart';
 import 'dio/dio.dart';
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
               title: 'Mandoub Hangur',
               darkTheme: darkMode,
               themeMode: isDark ?? false ? ThemeMode.dark : ThemeMode.light,
-              home: token != null ? const HomePage() : LoginScreen(),
+              home: SharedPref.getToken() != null ? const HomePage() : LoginScreen(),
               locale: Locale(RiderCubit.get(context).lang),
               localizationsDelegates: const [
                 AppLocale.delegate,
