@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../Widgets/rounded_image_widget.dart';
 import '../common/colors/theme_model.dart';
-import 'FilesHandler/images_model.dart';
-import 'FilesHandler/rounded_image_widget.dart';
+import '../model/images_model.dart';
 
 class HelperFunctions {
   static void showDialogHelper(BuildContext context,

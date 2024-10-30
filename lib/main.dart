@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:untitled2/cubit/rider_cubit.dart';
 import 'package:untitled2/shared_prefrence/shared%20prefrence.dart';
 
+import 'Utilities/NotificationHandler/notification_handler.dart';
 import 'Utilities/git_it.dart';
 import 'Utilities/shared_preferences.dart';
 import 'common/constants/constanat.dart';
@@ -21,8 +22,25 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final SocketService _socketService = SocketService();
+  @override
+  void initState() {
+    if (SharedPref.getUserID() != null) {
+      _socketService.connectAndSubscribe(
+        SharedPref.getUserID()!,
+        "DELIVERY_PARTNER",
+      );
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +55,9 @@ class MyApp extends StatelessWidget {
               title: 'Mandoub Hangur',
               darkTheme: darkMode,
               themeMode: isDark ?? false ? ThemeMode.dark : ThemeMode.light,
-              home: SharedPref.getToken() != null ? const HomePage() : LoginScreen(),
+              home: SharedPref.getToken() != null
+                  ? const HomePage()
+                  : LoginScreen(),
               locale: Locale(RiderCubit.get(context).lang),
               localizationsDelegates: const [
                 AppLocale.delegate,

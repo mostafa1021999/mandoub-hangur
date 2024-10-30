@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:untitled2/Utilities/shared_preferences.dart';
 import 'package:untitled2/common/translate/app_local.dart';
 import 'package:untitled2/cubit/rider_cubit.dart';
 
@@ -10,6 +11,7 @@ import '../../common/constants/constanat.dart';
 import '../../common/translate/strings.dart';
 import '../../shared_prefrence/shared prefrence.dart';
 import '../auth/Login/login.dart';
+import '../chat/chat.dart';
 import 'navigators/UserData/user_data_view.dart';
 import 'navigators/setting.dart';
 import 'navigators/support.dart';
@@ -71,6 +73,15 @@ class _ProfileViewState extends StateMVC<ProfileView> {
                             navigate(context, const Support());
                           },
                         ),
+                        if (SharedPref.getToken() != null)
+                          ProfileListItem(
+                            icon: Icons.headset_mic_outlined,
+                            text: Strings.callCenter.tr(context),
+                            hasNavigation: true,
+                            onTap: () {
+                              navigate(context, const Chat());
+                            },
+                          ),
                         ProfileListItem(
                             icon: Icons.settings_outlined,
                             text: Strings.language.tr(context),

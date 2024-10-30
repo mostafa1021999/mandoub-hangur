@@ -47,7 +47,9 @@ class ThemeModel {
   }
 
   static const mainColor = Color(0xFFF78C2E);
+  final Color primary;
   final Color backgroundColor;
+  final Color cardsColor;
   final Color textFieldColor;
   final Color textColor1;
   final Color greyFontColor;
@@ -58,7 +60,16 @@ class ThemeModel {
   final Color font2;
   final Color font3;
   final Color font4;
+  final Color chatTextField;
+  final Color red;
+  final Color danger;
+  final Color greenAppBar;
   ThemeModel.light({
+    this.primary = const Color(0xffF78C2E),
+    this.greenAppBar = const Color(0xff33C072),
+    this.danger = const Color(0xFFF04940),
+    this.red = const Color(0xFFEB5757),
+    this.cardsColor = const Color(0xFFFFFFFF),
     this.greyFontColor = Colors.grey,
     this.backgroundColor = const Color(0xFFECF3F9),
     this.textFieldColor = const Color(0XFFA7BCC7),
@@ -70,5 +81,6 @@ class ThemeModel {
     this.font2 = const Color(0xFF878787),
     this.font3 = const Color(0xFFC5C5C5),
     this.font4 = const Color(0xFFE5E5E5),
+    this.chatTextField = Colors.black12,
   }); // Safety check// Safety check
 }

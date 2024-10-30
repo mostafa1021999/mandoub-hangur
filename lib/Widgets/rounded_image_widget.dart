@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../common/colors/theme_model.dart';
-import 'images_model.dart';
+import '../common/colors/theme_model.dart';
+import '../common/images/images.dart';
+import '../model/images_model.dart';
 
 class RoundedImage extends StatelessWidget {
   final Color? backgroundColor, borderColor;
@@ -76,10 +77,9 @@ class RoundedImage extends StatelessWidget {
                               opacity: 0.2,
                               child: CircleAvatar(
                                 radius: ((radiusValue ?? 16) / 2).r,
-                                backgroundColor:
-                                    ThemeModel.of(context).backgroundColor,
+                                backgroundColor: ThemeModel.of(context).primary,
                                 child: Image.asset(
-                                  "ImagesApp.teslmPngLogo",
+                                  Images.logoWithoutBackground,
                                   width: 24,
                                 ),
                               ),
@@ -92,10 +92,9 @@ class RoundedImage extends StatelessWidget {
                               fit: BoxFit.cover,
                               errorBuilder: (context, _, c) => CircleAvatar(
                                 radius: ((radiusValue ?? 16) / 2).r,
-                                backgroundColor:
-                                    ThemeModel.of(context).backgroundColor,
+                                backgroundColor: ThemeModel.of(context).primary,
                                 child: Image.asset(
-                                  "ImagesApp.teslmPngLogo",
+                                  Images.logoWithoutBackground,
                                   width: 24,
                                 ),
                               ),

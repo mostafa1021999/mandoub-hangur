@@ -6,8 +6,10 @@ import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 
+import '../../featers/chat/controller/chat_controller_cubit.dart';
+import '../../model/images_model.dart';
+import '../api_endpoints.dart';
 import 'files_states.dart';
-import 'images_model.dart';
 
 Future pickFileProvider(BuildContext context,
         {bool multiImages = false, bool openCamera = false}) async =>
@@ -48,8 +50,8 @@ class DragFilesCubit extends Cubit<FilesStates> {
       bool openCamera = false}) async {
     emit(PickFilesLoadingState());
     if (openCamera) {
-      final ImagePicker _picker = ImagePicker();
-      final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+      final ImagePicker picker = ImagePicker();
+      final XFile? image = await picker.pickImage(source: ImageSource.camera);
       if (image != null) {
         if (!allowMultiple) {
           _images = [];
@@ -106,6 +108,23 @@ class DragFilesCubit extends Cubit<FilesStates> {
     imageUrls = [];
   }
 
+  bool startUploadRecord = false;
+  Future<void> uploadRecord(
+      String recordUrl, BuildContext context, String chatId) async {
+    startUploadRecord = true;
+    emit(UploadRecordLoadingState());
+    String? url = await sendRecord(recordUrl);
+    if (url?.isNotEmpty ?? false) {
+      ChatController().postMessage(
+        context: context,
+        chatId: chatId,
+        audioUrl: url,
+      );
+    }
+    startUploadRecord = false;
+    emit(UploadRecordSuccessState());
+  }
+
   bool startUploading = false;
   Future<void> uploadSelectedImages() async {
     startUploading = true;
@@ -118,21 +137,63 @@ class DragFilesCubit extends Cubit<FilesStates> {
         emit(UploadFilesSuccessState());
         // removeImageFromImagesList(_images.indexOf(image));
       }
-      imageUrls.forEach((e) => print("Image Path>>>>>>>  $e"));
-      print("<<<   ${imageUrls.length}   >>>");
+      // imageUrls.forEach((e) => print("Image Path>>>>>>>  $e"));
+      // print("<<<   ${imageUrls.length}   >>>");
     }
     clearImages();
     startUploading = false;
     emit(UploadFilesSuccessState());
   }
 
-  Future<String?> sendFiles(GenericFile singleImage) async {
-    final url = Uri.parse('');
-    // final url = Uri.parse('${ApiEndPoint.baseUrl}upload-file');
+  // import 'dart:io'; // Import for File operations
+  // import 'package:http/http.dart' as http; // Import for HTTP requests
+  // import 'package:path/path.dart'; // For file path operations
+  // import 'package:mime/mime.dart'; // For detecting MIME type
+  // import 'package:http_parser/http_parser.dart'; // For setting content type
+
+  Future<String?> sendRecord(String audioFilePath) async {
+    // Replace with your actual endpoint URL
+    final url = Uri.parse('${ApiEndpoints.baseUrl}upload-file');
 
     // Create a multipart request
     var request = http.MultipartRequest('POST', url);
 
+    // Get MIME type of the file
+    final mimeType = lookupMimeType(audioFilePath);
+    final mimeTypeData =
+        mimeType?.split('/') ?? ['application', 'octet-stream'];
+    // Attach the audio file to the request
+    request.files.add(await http.MultipartFile.fromPath(
+      'file', // This is the field name for the file on the server side
+      audioFilePath,
+      contentType: MediaType(mimeTypeData[0], mimeTypeData[1]),
+    ));
+
+    // Send the request
+    try {
+      final response = await request.send();
+      final responseString = await response.stream.bytesToString();
+      if (response.statusCode == 201) {
+        debugPrint(
+            'Audio uploaded successfully>>>>>>  ${responseString.replaceAll(".mp4", ".mp3")}');
+        return responseString.replaceAll(".mp4", ".mp3");
+      } else {
+        debugPrint('Failed to upload audio: ${response.statusCode}');
+      }
+    } catch (e) {
+      debugPrint('Error occurred while uploading audio: $e');
+    }
+    return null;
+  }
+
+  Future<String?> sendFiles(GenericFile singleImage) async {
+    // Replace with your actual endpoint URL
+    final url = Uri.parse('${ApiEndpoints.baseUrl}upload-file');
+
+    // Create a multipart request
+    var request = http.MultipartRequest('POST', url);
+
+    // Get MIME type of the file
     final mimeType = lookupMimeType(singleImage.path);
     final mimeTypeData =
         mimeType?.split('/') ?? ['application', 'octet-stream'];

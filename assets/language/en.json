@@ -58,5 +58,9 @@
   "resend_code_after": "Don't receive code",
   "enter_password_greater": "Password must be complex like T@t123458",
   "password_changed_successfully": "Password has changed successfully",
-  "password_not_match": "Passwords not match"
+  "password_not_match": "Passwords not match",
+  "camera" : "Camera",
+  "file" : "File",
+  "write_message": "Write message...",
+  "cancel" : "Cancel"
 }

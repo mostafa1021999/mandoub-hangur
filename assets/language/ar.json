@@ -57,5 +57,9 @@
   "resend_code_after": "لم تتلقى رساله",
   "enter_password_greater": "كلمة المرور يجب ان تكون مثل T@t123458",
   "password_changed_successfully": "تم تغيير كلمة المرور بنجاح",
-  "password_not_match": "كلمات المرور غير متطابقة"
+  "password_not_match": "كلمات المرور غير متطابقة",
+  "camera" : "الكاميرا",
+  "file" : "ملف",
+  "write_message": "اكتب رساله...",
+  "cancel" : "الغاء"
 }

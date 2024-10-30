@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled2/Utilities/FilesHandler/rounded_image_widget.dart';
 import 'package:untitled2/Utilities/extensions.dart';
 
+import '../../Widgets/rounded_image_widget.dart';
+import '../../common/colors/theme_model.dart';
 import '../helper_functions.dart';
 import 'files_cubit.dart';
 import 'files_states.dart';
@@ -57,8 +58,8 @@ class ImagesInBoardWidget extends StatelessWidget {
                                 filesCubit.removeImageFromImagesList(index),
                             child: Container(
                               padding: const EdgeInsets.all(2),
-                              decoration: const BoxDecoration(
-                                color: Colors.red,
+                              decoration: BoxDecoration(
+                                color: ThemeModel.of(context).danger,
                                 shape: BoxShape.circle,
                               ),
                               child: const Icon(

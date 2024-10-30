@@ -4,9 +4,11 @@ import 'package:untitled2/Utilities/shared_preferences.dart';
 import 'package:untitled2/common/translate/app_local.dart';
 import 'package:untitled2/common/translate/strings.dart';
 
+import '../../../Utilities/NotificationHandler/notification_handler.dart';
 import '../../../common/components.dart';
-import '../../../common/constants/constanat.dart';
+import '../../../model/get_rider_data_model.dart';
 import '../../../shared_prefrence/shared prefrence.dart';
+import '../../Profile/navigators/UserData/user_data_data_handler.dart';
 import '../../home/screen/home.dart';
 import 'login_data_handler.dart';
 
@@ -38,6 +40,24 @@ class LoginController extends ControllerMVC {
     super.dispose();
   }
 
+  RiderData? userData;
+  Future getUserData(BuildContext context) async {
+    final result = await UserDataDataHandler.getUserData();
+    result.fold((l) {}, (r) {
+      userData = r;
+      if (r.id != null) {
+        SharedPref.setUserID(id: r.id!);
+        final SocketService socketService = SocketService();
+        if (SharedPref.getUserID() != null) {
+          socketService.connectAndSubscribe(
+            SharedPref.getUserID()!,
+            "DELIVERY_PARTNER",
+          );
+        }
+      }
+    });
+  }
+
   ///   -----------   Login
   Future login(BuildContext context) async {
     loading = true;
@@ -66,6 +86,7 @@ class LoginController extends ControllerMVC {
               style: const TextStyle(color: Colors.white, fontSize: 17),
             )),
       ));
+      getUserData(context);
       navigateAndFinish(context, const HomePage());
     });
     loading = false;
