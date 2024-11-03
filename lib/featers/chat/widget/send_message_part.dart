@@ -20,7 +20,9 @@ import 'select_images_widget.dart';
 
 class SendMessagePart extends StatefulWidget {
   final String? chatId;
-  const SendMessagePart({super.key, this.chatId});
+  final bool isSendMessageNow;
+  const SendMessagePart(
+      {super.key, this.chatId, this.isSendMessageNow = false});
 
   @override
   State<SendMessagePart> createState() => _SendMessagePartState();
@@ -254,25 +256,31 @@ class _SendMessagePartState extends State<SendMessagePart> {
                                             ),
                                 ),
                               )
-                            : InkWell(
-                                onTap: () {
-                                  if (widget.chatId == null) {
-                                    return;
-                                  }
-                                  ChatController().postMessage(
-                                    context: context,
-                                    message: messageController.text.trim(),
-                                    chatId: widget.chatId!,
-                                  );
-                                  messageController.clear();
-                                },
-                                child: const CircleAvatar(
-                                  radius: 20,
-                                  backgroundColor: ThemeModel.mainColor,
-                                  child: Icon(Icons.send,
-                                      color: Colors.white, size: 26),
-                                ),
-                              ),
+                            : widget.isSendMessageNow
+                                ? const Center(
+                                    child: CircularProgressIndicator(
+                                      color: ThemeModel.mainColor,
+                                    ),
+                                  )
+                                : InkWell(
+                                    onTap: () {
+                                      if (widget.chatId == null) {
+                                        return;
+                                      }
+                                      ChatController().postMessage(
+                                        context: context,
+                                        message: messageController.text.trim(),
+                                        chatId: widget.chatId!,
+                                      );
+                                      messageController.clear();
+                                    },
+                                    child: const CircleAvatar(
+                                      radius: 20,
+                                      backgroundColor: ThemeModel.mainColor,
+                                      child: Icon(Icons.send,
+                                          color: Colors.white, size: 26),
+                                    ),
+                                  ),
                       );
                     }),
                 if (language != 'en')

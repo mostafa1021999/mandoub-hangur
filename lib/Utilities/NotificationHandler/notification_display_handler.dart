@@ -17,20 +17,34 @@ class NotificationService {
         if (notificationResponse.payload != null) {
           onNotificationTap(notificationResponse.payload);
         }
+
+        // Check for action ID
+        if (notificationResponse.actionId == 'confirmOrder') {
+          // Handle the action button tap
+          print('Confirm Action button pressed!');
+          // Add your action handling logic here
+        }
       },
     );
   }
 
   static Future<void> showNotification(
-      int id, String title, String body) async {
-    const NotificationDetails notificationDetails = NotificationDetails(
-      android: AndroidNotificationDetails(
-        'main_channel',
-        'Main Channel',
-        importance: Importance.max,
-        priority: Priority.high,
-        colorized: true,
-      ),
+    int id,
+    String title,
+    String body, {
+    int? durationInSeconds,
+  }) async {
+    NotificationDetails notificationDetails = const NotificationDetails(
+      android: AndroidNotificationDetails('main_channel', 'Main Channel',
+          importance: Importance.max,
+          priority: Priority.high,
+          colorized: true,
+          sound: RawResourceAndroidNotificationSound(
+              'notification_sound'), // Custom sound
+          actions: <AndroidNotificationAction>[
+            AndroidNotificationAction('confirmOrder', 'Confirm',
+                showsUserInterface: true),
+          ]),
       iOS: DarwinNotificationDetails(),
     );
 
@@ -40,5 +54,11 @@ class NotificationService {
       body,
       notificationDetails,
     );
+    // If a duration is provided, cancel the notification after that duration
+    if (durationInSeconds != null) {
+      Future.delayed(Duration(seconds: durationInSeconds), () async {
+        await _notificationsPlugin.cancel(id);
+      });
+    }
   }
 }

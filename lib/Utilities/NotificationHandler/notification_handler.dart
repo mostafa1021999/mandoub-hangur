@@ -80,7 +80,8 @@ class SocketService {
           : 'You have a new message';
       debugPrint("Notification body: $body");
 
-      NotificationService.showNotification(1, title, body);
+      NotificationService.showNotification(
+          DateTime.now().millisecondsSinceEpoch, title, body);
     } catch (e, stackTrace) {
       debugPrint("Error when showing notification: $e");
       debugPrint("Stack trace: $stackTrace");

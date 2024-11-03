@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:untitled2/cubit/rider_cubit.dart';
 import 'package:untitled2/shared_prefrence/shared%20prefrence.dart';
 
+import 'Utilities/FilesHandler/files_cubit.dart';
 import 'Utilities/NotificationHandler/notification_handler.dart';
 import 'Utilities/git_it.dart';
 import 'Utilities/shared_preferences.dart';
@@ -44,9 +45,13 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-        create: (context) =>
-            RiderCubit()..changeLanguage(fromCache: language ?? 'ar'),
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => RiderCubit()..changeLanguage(fromCache: 'ar'),
+          ),
+          BlocProvider(create: (context) => DragFilesCubit()),
+        ],
         child: BlocBuilder<RiderCubit, MandoubState>(builder: (context, state) {
           return ScreenUtilInit(
             designSize: const Size(428, 926),

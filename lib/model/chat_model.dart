@@ -4,6 +4,7 @@ class ChatModel {
 
   ChatModel({this.id, this.messages});
   factory ChatModel.fromJson(Map<String, dynamic> json) {
+    print(json['messages']);
     return ChatModel(
       id: json['id'],
       messages: json['messages'] != null

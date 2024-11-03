@@ -29,7 +29,7 @@ class _ChatState extends StateMVC<Chat> {
   @override
   void initState() {
     Future.delayed(Duration.zero).then((value) {
-      con.getChat();
+      con.getChatData();
     });
     super.initState();
   }
@@ -56,6 +56,7 @@ class _ChatState extends StateMVC<Chat> {
                 20.h.heightBox,
                 SendMessagePart(
                   chatId: con.chatsCallCenter?.id?.toString(),
+                  isSendMessageNow: con.isSendMessageNow,
                 )
               ],
             ),

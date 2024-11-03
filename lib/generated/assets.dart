@@ -7,6 +7,7 @@ class Assets {
   static const String imagesEnglish = 'assets/images/english.png';
   static const String imagesLogoApp = 'assets/images/logoApp.jpg';
   static const String imagesLogoRiderApp = 'assets/images/logo_rider_app.png';
+  static const String imagesRecorder = 'assets/images/recorder.gif';
   static const String languageAr = 'assets/language/ar.json';
   static const String languageEn = 'assets/language/en.json';
 }
