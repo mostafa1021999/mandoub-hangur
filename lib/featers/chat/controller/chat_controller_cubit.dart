@@ -31,6 +31,7 @@ class ChatController extends ControllerMVC {
 
   ///   -----------   get chat data   -----------
   Future getChatData() async {
+    print("TOKEN   >>>>>> ${SharedPref.getToken()}");
     loading = true;
     setState(() {});
     final result = await ChatDataHandler.getChat();
@@ -55,7 +56,7 @@ class ChatController extends ControllerMVC {
   }
 
   IO.Socket socket = IO.io(
-    'http://147.79.114.89:5052',
+    'http://delivery.teslm.shop',
     <String, dynamic>{
       'transports': ['websocket', 'polling'],
       'autoConnect': false,
@@ -69,8 +70,8 @@ class ChatController extends ControllerMVC {
 
     socket.onConnect((_) {
       debugPrint('Connection established');
-      socket.emit(
-          "joinChat", json.encode({"customerId": SharedPref.getUserID()}));
+      socket.emit("joinChat",
+          json.encode({"deliveryPartnerId": SharedPref.getUserID()}));
     });
 
     socket.on("joinedChat", (data) {
@@ -80,7 +81,7 @@ class ChatController extends ControllerMVC {
     });
 
     socket.on('newMessage', (data) {
-      // print("New Message:>>>>>>>> $data");
+      print("New Message:>>>>>>>> $data");
       onNewMessage(data);
     });
 
@@ -97,7 +98,8 @@ class ChatController extends ControllerMVC {
     setState(() {
       isSendMessageNow = true;
     });
-    debugPrint("SEND MESSAGE>>>>>. $chatId");
+    debugPrint(
+        "SEND MESSAGE>>>>> Chat id: $chatId   ----   user id: ${SharedPref.getUserID()}");
     if (audioUrl != null) {
       String messageBody = json.encode({
         'chatId': chatId,

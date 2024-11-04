@@ -11,4 +11,5 @@ class ApiEndpoints {
       "${baseUrl}delivery-partners/auth/forget-password/verify-otp";
   static const String changePassword = "${baseUrl}delivery-partners/me";
   static const String chat = "${baseUrl}chats/deliveryPartners/me";
+  static const String orders = "${baseUrl}orders/delivery-partners";
 }

@@ -13,7 +13,7 @@ class SocketService {
   // Connect and listen to notifications
   void connectAndSubscribe(String userId, String userType) {
     _socket = IO.io(
-      'http://147.79.114.89:5053',
+      'http://notifications.teslm.shop',
       IO.OptionBuilder()
           .setTransports(['websocket'])
           .disableAutoConnect()
