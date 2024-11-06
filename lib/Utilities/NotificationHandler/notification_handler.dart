@@ -78,10 +78,11 @@ class SocketService {
       String body = data.containsKey('body') && data['body'] is Map
           ? data['body'][language] ?? 'You have a new message'
           : 'You have a new message';
+      String sourceID = data['orderId'];
       debugPrint("Notification body: $body");
 
-      NotificationService.showNotification(
-          DateTime.now().millisecondsSinceEpoch, title, body);
+      NotificationService.showNotification(1, title, body, sourceID,
+          durationInSeconds: 60);
     } catch (e, stackTrace) {
       debugPrint("Error when showing notification: $e");
       debugPrint("Stack trace: $stackTrace");

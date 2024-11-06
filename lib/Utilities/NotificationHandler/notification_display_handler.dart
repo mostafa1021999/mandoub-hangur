@@ -31,7 +31,8 @@ class NotificationService {
   static Future<void> showNotification(
     int id,
     String title,
-    String body, {
+    String body,
+    String sourceID, {
     int? durationInSeconds,
   }) async {
     NotificationDetails notificationDetails = const NotificationDetails(
@@ -39,6 +40,7 @@ class NotificationService {
           importance: Importance.max,
           priority: Priority.high,
           colorized: true,
+          icon: '@mipmap/ic_launcher',
           sound: RawResourceAndroidNotificationSound(
               'notification_sound'), // Custom sound
           actions: <AndroidNotificationAction>[
@@ -53,6 +55,7 @@ class NotificationService {
       title,
       body,
       notificationDetails,
+      payload: sourceID,
     );
     // If a duration is provided, cancel the notification after that duration
     if (durationInSeconds != null) {

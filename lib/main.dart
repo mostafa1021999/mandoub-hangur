@@ -6,6 +6,7 @@ import 'package:untitled2/cubit/rider_cubit.dart';
 import 'package:untitled2/shared_prefrence/shared%20prefrence.dart';
 
 import 'Utilities/FilesHandler/files_cubit.dart';
+import 'Utilities/NotificationHandler/notification_display_handler.dart';
 import 'Utilities/NotificationHandler/notification_handler.dart';
 import 'Utilities/git_it.dart';
 import 'Utilities/shared_preferences.dart';
@@ -17,6 +18,20 @@ import 'featers/home/screen/home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  NotificationService.initialize((payload) {
+    if (payload != null && payload.isNotEmpty) {
+      // Handle notification tap by navigating to a specific screen
+      print('Notification tapped with payload: $payload');
+      // Navigate to a specific screen, for example:
+      // MyApp.navigatorKey.currentState?.push(
+      //   MaterialPageRoute(
+      //     builder: (context) => OrderDetails(
+      //       orderIndex: int.parse(payload),
+      //     ),
+      //   ),
+      // );
+    }
+  });
   await GitIt.initGitIt();
   DioHelper.init();
   await Save.init();

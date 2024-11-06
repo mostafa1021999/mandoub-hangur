@@ -7,6 +7,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../Utilities/shared_preferences.dart';
 import '../common/constants/constanat.dart';
 import '../featers/Profile/profile_view.dart';
 import '../featers/home/screen/main_page.dart';
@@ -116,6 +117,8 @@ class RiderCubit extends Cubit<MandoubState> {
       Placemark placemark = placemarks.first;
       position1 = position.latitude;
       position2 = position.longitude;
+      SharedPref.setLatLng(
+          latLng: [position1.toString(), position2.toString()]);
       currentLocationName =
           '${placemark.street ?? ''},${placemark.locality}, ${placemark.country}';
     } catch (e) {

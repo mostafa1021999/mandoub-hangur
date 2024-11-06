@@ -52,6 +52,7 @@ class ChatController extends ControllerMVC {
   Future<void> onNewMessage(dynamic message) async {
     if (chatsCallCenter != null && chatsCallCenter!.messages != null) {
       chatsCallCenter!.messages!.add(MessagesModel.fromJson(message));
+      setState(() {});
     }
   }
 
@@ -104,10 +105,14 @@ class ChatController extends ControllerMVC {
       String messageBody = json.encode({
         'chatId': chatId,
         'from': '${SharedPref.getUserID()}',
-        'content': message,
+        // 'content': message,
         'audioUrl': audioUrl
       });
       socket.emit("sendMessage", messageBody);
+      debugPrint("SEND AUDIO MESSAGE Done $messageBody");
+      setState(() {
+        isSendMessageNow = false;
+      });
       return;
     }
     if (imagesProvider(context).isNotEmpty) {
@@ -126,6 +131,9 @@ class ChatController extends ControllerMVC {
             ">>>>>>>>>>>>>>>>>>>>>>>> ${BlocProvider.of<DragFilesCubit>(context).imageUrls}");
         socket.emit("sendMessage", messageBody);
         BlocProvider.of<DragFilesCubit>(context).clearUrls();
+        setState(() {
+          isSendMessageNow = false;
+        });
         return;
       });
     } else {
@@ -136,10 +144,11 @@ class ChatController extends ControllerMVC {
       });
       if (message == null) return;
       socket.emit("sendMessage", messageBody);
+      setState(() {
+        isSendMessageNow = false;
+      });
     }
-    setState(() {
-      isSendMessageNow = false;
-    });
+
     debugPrint("SEND MESSAGE Done");
   }
 }
