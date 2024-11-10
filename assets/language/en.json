@@ -62,5 +62,6 @@
   "camera" : "Camera",
   "file" : "File",
   "write_message": "Write message...",
-  "cancel" : "Cancel"
+  "cancel" : "Cancel",
+  "notifications" : "Notifications"
 }

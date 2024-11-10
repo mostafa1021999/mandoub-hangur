@@ -13,6 +13,7 @@ import 'Utilities/shared_preferences.dart';
 import 'common/constants/constanat.dart';
 import 'common/translate/app_local.dart';
 import 'dio/dio.dart';
+import 'featers/Notifications/cubit/notifications_cubit.dart';
 import 'featers/auth/Login/login.dart';
 import 'featers/home/screen/home.dart';
 
@@ -66,6 +67,7 @@ class _MyAppState extends State<MyApp> {
             create: (context) => RiderCubit()..changeLanguage(fromCache: 'ar'),
           ),
           BlocProvider(create: (context) => DragFilesCubit()),
+          BlocProvider(create: (context) => NotificationsCubit()),
         ],
         child: BlocBuilder<RiderCubit, MandoubState>(builder: (context, state) {
           return ScreenUtilInit(

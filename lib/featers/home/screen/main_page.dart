@@ -2,14 +2,17 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:untitled2/Utilities/extensions.dart';
 import 'package:untitled2/common/translate/app_local.dart';
 import 'package:untitled2/common/translate/strings.dart';
 import 'package:untitled2/cubit/rider_cubit.dart';
 
 import '../../../common/colors/theme_model.dart';
 import '../../../common/components.dart';
+import '../../Notifications/notifications_view.dart';
 
 class MainHome extends StatefulWidget {
   const MainHome({super.key});
@@ -78,16 +81,32 @@ class _MainHomeState extends State<MainHome> {
                             )),
                       ),
                     )),
-                const Positioned(
+                Positioned(
                     top: 110,
                     left: 25,
-                    child: CircleAvatar(
-                        backgroundColor: Colors.white,
-                        child: Icon(
-                          Icons.restart_alt_outlined,
-                          color: ThemeModel.mainColor,
-                          size: 25,
-                        ))),
+                    child: Column(
+                      children: [
+                        const CircleAvatar(
+                            backgroundColor: Colors.white,
+                            child: Icon(
+                              Icons.restart_alt_outlined,
+                              color: ThemeModel.mainColor,
+                              size: 25,
+                            )),
+                        16.h.heightBox,
+                        GestureDetector(
+                          onTap: () {
+                            navigate(context, const NotificationsView());
+                          },
+                          child: const CircleAvatar(
+                              backgroundColor: Colors.white,
+                              child: Icon(
+                                Icons.notifications_active,
+                                color: ThemeModel.mainColor,
+                              )),
+                        ),
+                      ],
+                    )),
                 Positioned(
                     bottom: 70,
                     right: 25,

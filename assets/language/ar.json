@@ -61,5 +61,6 @@
   "camera" : "الكاميرا",
   "file" : "ملف",
   "write_message": "اكتب رساله...",
-  "cancel" : "الغاء"
+  "cancel" : "الغاء",
+  "notifications" : "الاشعارات"
 }

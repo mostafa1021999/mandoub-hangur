@@ -69,14 +69,16 @@ class SocketService {
   void handleIncomingNotification(Map<String, dynamic> data) {
     try {
       debugPrint("Language::::: $language");
+      String notificationsViewerHelperLang = language == 'en' ? 'en' : 'ar';
 
       String title = data.containsKey('title') && data['title'] is Map
-          ? data['title'][language] ?? 'Notification'
+          ? data['title'][notificationsViewerHelperLang] ?? 'Notification'
           : 'Notification';
       debugPrint("Notification title: $title");
 
       String body = data.containsKey('body') && data['body'] is Map
-          ? data['body'][language] ?? 'You have a new message'
+          ? data['body'][notificationsViewerHelperLang] ??
+              'You have a new message'
           : 'You have a new message';
       String sourceID = data['orderId'];
       debugPrint("Notification body: $body");

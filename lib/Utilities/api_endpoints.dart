@@ -12,4 +12,5 @@ class ApiEndpoints {
   static const String changePassword = "${baseUrl}delivery-partners/me";
   static const String chat = "${baseUrl}chats/deliveryPartners/me";
   static const String orders = "${baseUrl}orders/delivery-partners";
+  static String notifications = '${baseUrl}notifications/deliveryPartner';
 }

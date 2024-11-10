@@ -12,13 +12,10 @@ class SharedPref {
   static const String _theme = "theme";
   static const String _latLng = "latLng";
 
-  // static Future logout() async {
-  //   GitIt.instance.registerLazySingleton<UserModel>(
-  //     () => UserModel(),
-  //   );
-  //   await secureStorage.delete(key: _userToken);
-  //   setLoginState(false);
-  // }
+  static Future logout() async {
+    await secureStorage.delete(key: _userToken);
+    setLoginState(false);
+  }
 
   static Future<void> setToken({required String token}) async {
     await prefs.setString(_userToken, token);

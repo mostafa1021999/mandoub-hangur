@@ -50,6 +50,7 @@ class ChatController extends ControllerMVC {
   }
 
   Future<void> onNewMessage(dynamic message) async {
+    print("New Message:>>>>>>>><<<<<<< $message");
     if (chatsCallCenter != null && chatsCallCenter!.messages != null) {
       chatsCallCenter!.messages!.add(MessagesModel.fromJson(message));
       setState(() {});
@@ -82,7 +83,7 @@ class ChatController extends ControllerMVC {
     });
 
     socket.on('newMessage', (data) {
-      print("New Message:>>>>>>>> $data");
+      print("New Message:>>>>>>>> ---$data");
       onNewMessage(data);
     });
 

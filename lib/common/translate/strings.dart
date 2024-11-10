@@ -64,4 +64,5 @@ class Strings {
   static const String file = "file";
   static const String writeMessage = "write_message";
   static const String cancel = "cancel";
+  static const String notifications = "notifications";
 }

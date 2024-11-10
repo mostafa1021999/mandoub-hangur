@@ -76,6 +76,7 @@ class LoginController extends ControllerMVC {
       ));
     }, (r) {
       SharedPref.setToken(token: r);
+      SharedPref.setLoginState(true);
       Save.savedata(key: 'token', value: r);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: Colors.green.shade400,
