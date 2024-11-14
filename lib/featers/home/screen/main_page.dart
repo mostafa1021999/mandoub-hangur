@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:untitled2/Utilities/extensions.dart';
 import 'package:untitled2/common/translate/app_local.dart';
 import 'package:untitled2/common/translate/strings.dart';
@@ -12,16 +13,21 @@ import 'package:untitled2/cubit/rider_cubit.dart';
 
 import '../../../common/colors/theme_model.dart';
 import '../../../common/components.dart';
+import '../../../common/constants/constanat.dart';
+import '../../../model/get_rider_data_model.dart';
 import '../../Notifications/notifications_view.dart';
+import '../../Profile/navigators/UserData/user_data_controller.dart';
+import '../../Profile/navigators/UserData/user_data_view.dart';
 
 class MainHome extends StatefulWidget {
   const MainHome({super.key});
 
   @override
-  State<MainHome> createState() => _MainHomeState();
+  createState() => _MainHomeState();
 }
 
-class _MainHomeState extends State<MainHome> {
+class _MainHomeState  extends State<MainHome> {
+  late UserDataController con;
   late GoogleMapController _mapController;
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
@@ -35,10 +41,86 @@ class _MainHomeState extends State<MainHome> {
 
   @override
   void initState() {
+    con = UserDataController();
     _initMapController();
+    Future.delayed(Duration.zero, () async {
+      await con.getUserData(); // Assuming this is an async call
+      if (con.userData?.area != null) {
+        _createPolyline(); // Only create polyline if area data is available
+      }
+    });
     super.initState();
   }
+  Set<Polygon> _polygons = {};
+  bool isSwitched = false;
+  List<LatLng> getPolylinePoints(Area area) {
+    List<LatLng> points = area.coordinates?.map((coord) {
+      final point = coord.point;
+      if (point != null && point.coordinates != null) {
+        return LatLng(point.coordinates![1], point.coordinates![0]);
+      }
+      return null;
+    }).whereType<LatLng>().toList() ?? [];
 
+    // Add the first point to the end to close the polygon
+    if (points.isNotEmpty) {
+      points.add(points[0]);
+    }
+
+    return points;
+  }
+  void _createPolyline() {
+    // Get coordinates for the polygon from the userData area
+    List<LatLng> polygonCoordinates = getPolylinePoints(con.userData!.area!);
+
+    // Create a polygon using the coordinates with opacity for colors
+    final polygon = Polygon(
+      polygonId: PolygonId("polygon_${con.userData!.id}"),
+      points: polygonCoordinates,
+      strokeColor: Colors.blue.withOpacity(0.6), // Blue color with 70% opacity for border
+      strokeWidth: 2,
+      fillColor: Colors.blue.withOpacity(0.2), // Blue color with 30% opacity for fill
+    );
+
+    setState(() {
+      _polygons.add(polygon);
+    });
+
+    // Adjust the camera to fit the polygon coordinates
+    _setCameraToPolygonBounds(polygonCoordinates);
+  }
+
+  // Set the camera bounds based on the polygon points
+  void _setCameraToPolygonBounds(List<LatLng> polygonCoordinates) {
+    if (polygonCoordinates.isEmpty) return;
+
+    LatLngBounds bounds = _calculateBounds(polygonCoordinates);
+    _mapController.animateCamera(CameraUpdate.newLatLngBounds(bounds, 50));
+  }
+  void _setCameraToPolylineBounds(List<LatLng> polylineCoordinates) {
+    if (polylineCoordinates.isEmpty) return;
+
+    LatLngBounds bounds = _calculateBounds(polylineCoordinates);
+    _mapController.animateCamera(CameraUpdate.newLatLngBounds(bounds, 50));
+  }
+  LatLngBounds _calculateBounds(List<LatLng> coordinates) {
+    double southWestLat = coordinates[0].latitude;
+    double southWestLng = coordinates[0].longitude;
+    double northEastLat = coordinates[0].latitude;
+    double northEastLng = coordinates[0].longitude;
+
+    for (LatLng latLng in coordinates) {
+      if (latLng.latitude < southWestLat) southWestLat = latLng.latitude;
+      if (latLng.longitude < southWestLng) southWestLng = latLng.longitude;
+      if (latLng.latitude > northEastLat) northEastLat = latLng.latitude;
+      if (latLng.longitude > northEastLng) northEastLng = latLng.longitude;
+    }
+
+    return LatLngBounds(
+      southwest: LatLng(southWestLat, southWestLng),
+      northeast: LatLng(northEastLat, northEastLng),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<RiderCubit, MandoubState>(
@@ -60,8 +142,10 @@ class _MainHomeState extends State<MainHome> {
                       zoom: 12.4746),
                   myLocationEnabled: true,
                   myLocationButtonEnabled: true,
+                  polygons: _polygons,
                   onMapCreated: (GoogleMapController controller) async {
                     _mapController = controller;
+                    _setCameraToPolylineBounds(getPolylinePoints(con.userData!.area!));
                     _controller.complete(controller);
                   },
                 ),
@@ -85,14 +169,32 @@ class _MainHomeState extends State<MainHome> {
                     top: 110,
                     left: 25,
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        const CircleAvatar(
-                            backgroundColor: Colors.white,
-                            child: Icon(
-                              Icons.restart_alt_outlined,
-                              color: ThemeModel.mainColor,
-                              size: 25,
-                            )),
+                         Container(
+                           padding: EdgeInsets.only(left: 7, right: 7,),
+                           decoration: BoxDecoration(
+                             color: ThemeModel.of(context).cardsColor,
+                             borderRadius: BorderRadius.circular(20),
+                           ),
+                           child: Row(
+                             children: [
+                               Text(isSwitched? Strings.active.tr(context) :Strings.notActive.tr(context) , style: TextStyle(color:isSwitched?isDark??false?  Colors.white:Colors.black: Colors.grey.shade600),),
+                               Switch(
+                                value: isSwitched,
+                                onChanged: (value) {
+                                setState(() {
+                                 isSwitched = value;
+                                     });
+                                },
+                                 activeColor: ThemeModel.mainColor,
+                                 activeTrackColor: ThemeModel.mainColor.withOpacity(0.4),
+                                 inactiveThumbColor: Colors.grey,
+                                 inactiveTrackColor: Colors.grey.shade300,
+                               ),
+                             ],
+                           ),
+                         ),
                         16.h.heightBox,
                         GestureDetector(
                           onTap: () {
@@ -121,12 +223,6 @@ class _MainHomeState extends State<MainHome> {
                             )),
                       ),
                     )),
-                Center(
-                    child: Container(
-                  height: 100,
-                  width: 220,
-                  color: Colors.black26,
-                ))
               ],
             ),
           ),

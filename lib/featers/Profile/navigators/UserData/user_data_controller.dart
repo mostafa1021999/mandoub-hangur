@@ -18,7 +18,7 @@ class UserDataController extends ControllerMVC {
 
   ///   -----------   get user Data   -----------
   RiderData? userData;
-  Future getUserData(BuildContext context) async {
+  Future getUserData() async {
     loading = true;
     setState(() {});
     final result = await UserDataDataHandler.getUserData();

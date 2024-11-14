@@ -24,7 +24,7 @@ class _UserDataState extends StateMVC<UserData> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
-      con.getUserData(context);
+      con.getUserData();
     });
   }
 
@@ -32,7 +32,7 @@ class _UserDataState extends StateMVC<UserData> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(Strings.editInformation.tr(context)),
+          title: Text(Strings.myInformation.tr(context)),
         ),
         body: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -72,6 +72,13 @@ class _UserDataState extends StateMVC<UserData> {
                           text: con.userData?.licenseNumber ?? "",
                         ),
                         Icons.bluetooth_drive_outlined,
+                        context),
+                    profile(
+                        Strings.zoneWork.tr(context),
+                        TextEditingController(
+                          text: con.userData?.area?.name ?? "",
+                        ),
+                        Icons.phone,
                         context),
                     profile(
                         Strings.company.tr(context),

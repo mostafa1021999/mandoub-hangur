@@ -33,6 +33,7 @@ void main() async {
       // );
     }
   });
+  print(token);
   await GitIt.initGitIt();
   DioHelper.init();
   await Save.init();
