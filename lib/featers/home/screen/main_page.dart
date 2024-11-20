@@ -386,7 +386,11 @@ class _MyDraggableSheetState extends State<MyDraggableSheet> {
                       const EdgeInsets.only(left: 16.0, right: 16, bottom: 10),
                   child: bottom(
                     Strings.acceptOrder.tr(context),
-                    _timer != 0 ? () {} : null,
+                    _timer != 0
+                        ? () {
+                            // OrdersDataHandler.acceptOrder(orderID: )
+                          }
+                        : null,
                   ),
                 ),
               ],
