@@ -16,7 +16,7 @@ class LoginDataHandler {
           'password': password
         }),
         fromMap: (data) => data["token"],
-      ).getResponse(printBody: false);
+      ).getResponse(printBody: true);
       return Either.right(response);
     } on ServerException catch (failure) {
       return Either.left(

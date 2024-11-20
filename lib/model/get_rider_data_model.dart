@@ -20,6 +20,7 @@ class RiderData {
   final String? password;
   final List<Orders>? orders;
   final Company? company;
+  final Area? area;
 
   RiderData({
     this.id,
@@ -43,6 +44,7 @@ class RiderData {
     this.password,
     this.orders,
     this.company,
+    this.area
   });
 
   factory RiderData.fromJson(Map<String, dynamic> json) {
@@ -66,6 +68,7 @@ class RiderData {
       totalReviews: json['totalReviews'],
       reviewCount: json['reviewCount'],
       password: json['password'],
+      area: json['area'] != null ? Area.fromJson(json['area']) : null,
       orders: json['orders'] != null ? (json['orders'] as List).map((i) => Orders.fromJson(i)).toList() : null,
       company: json['company'] != null ? Company.fromJson(json['company']) : null,);
   }
@@ -91,6 +94,7 @@ class RiderData {
     data['totalReviews'] = totalReviews;
     data['reviewCount'] = reviewCount;
     data['password'] = password;
+    data['area'] = area;
     if (orders != null) {
       data['orders'] = orders!.map((v) => v.toJson()).toList();
     }
@@ -166,7 +170,7 @@ class Orders {
     data['subtotal'] = subtotal;
     data['discount'] = discount;
     if (coupon != null) {
-      data['coupon'] = this.coupon!.toJson();
+      data['coupon'] = coupon!.toJson();
     }
     if (location != null) {
       data['location'] = location!.toJson();
@@ -517,6 +521,84 @@ class Company {
     }
     data['image'] = image;
     data['createdAt'] = createdAt;
+    return data;
+  }
+}
+class Area {
+  final String? id;
+  final String? description;
+  final int? shippingCost;
+  final String? name;
+  final List<Coordinates>? coordinates;
+  final String? cityId;
+
+  Area(
+      {this.id,
+        this.description,
+        this.shippingCost,
+        this.name,
+        this.coordinates,
+        this.cityId});
+  factory Area.fromJson(Map<String, dynamic> map) {
+    return Area(
+      id: map['id'],
+      description: map['description'],
+      shippingCost: map['shippingCost'],
+      name: map['name'],
+      coordinates: map['coordinates'] != null
+          ? (map['coordinates'] as List).map((item) => Coordinates.fromJson(item)).toList()
+          : null,
+      cityId: map['cityId'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['description'] = description;
+    data['shippingCost'] = shippingCost;
+    data['name'] = name;
+    if (coordinates != null) {
+      data['coordinates'] = coordinates!.map((v) => v.toJson()).toList();
+    }
+    data['cityId'] = cityId;
+    return data;
+  }
+}
+class Coordinates {
+  final Point? point;
+
+  Coordinates({this.point});
+  factory Coordinates.fromJson(Map<String, dynamic> map) {
+    return Coordinates(
+      point: Point.fromJson(map['point']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (point != null) {
+      data['point'] = point!.toJson();
+    }
+    return data;
+  }
+}
+class Point {
+  final String? type;
+  final List<double>? coordinates;
+
+  Point({this.type, this.coordinates});
+  factory Point.fromJson(Map<String, dynamic> map) {
+    return Point(
+      type: map['type'],
+      coordinates: map['coordinates'].cast<double>(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['type'] = type;
+    data['coordinates'] = coordinates;
     return data;
   }
 }

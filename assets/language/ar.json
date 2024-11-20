@@ -62,5 +62,8 @@
   "file" : "ملف",
   "write_message": "اكتب رساله...",
   "cancel" : "الغاء",
-  "notifications" : "الاشعارات"
+  "notifications" : "الاشعارات",
+  "zone_work" : "منطقة العمل",
+  "not_active" : "غير نشط",
+  "active" : "نشط"
 }

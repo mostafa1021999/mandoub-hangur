@@ -65,4 +65,7 @@ class Strings {
   static const String writeMessage = "write_message";
   static const String cancel = "cancel";
   static const String notifications = "notifications";
+  static const String zoneWork = "zone_work";
+  static const String notActive = "not_active";
+  static const String active = "active";
 }

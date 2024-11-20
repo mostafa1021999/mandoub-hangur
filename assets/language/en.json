@@ -63,5 +63,8 @@
   "file" : "File",
   "write_message": "Write message...",
   "cancel" : "Cancel",
-  "notifications" : "Notifications"
+  "notifications" : "Notifications",
+  "zone_work" : "Zone work",
+  "not_active" : "Not active",
+  "active" : "Active"
 }
