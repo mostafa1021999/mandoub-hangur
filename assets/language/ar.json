@@ -23,7 +23,8 @@
   "day_starts": "بدا اليوم فى الساعه",
   "order": "الطلبات",
   "attendance": "الحضور",
-  "total_orders": "اجمالى الطلبات",
+  "total_orders": "الطلبات المقبولة",
+  "rejected_orders": "الطلبات المرفوضة",
   "delivery_rate": "معدل التوصيل",
   "average_time": "متوسط الوقت",
   "maximum_time": "كاش",
@@ -65,5 +66,8 @@
   "notifications" : "الاشعارات",
   "zone_work" : "منطقة العمل",
   "not_active" : "غير نشط",
-  "active" : "نشط"
+  "active" : "نشط",
+  "day_statistics" : "الاحصاء اليومى",
+  "month_statistics" : "الاحصاء الشهرى",
+  "save" : "حفظ"
 }

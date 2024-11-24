@@ -95,13 +95,13 @@ class _MainHomeState  extends State<MainHome> {
     if (polygonCoordinates.isEmpty) return;
 
     LatLngBounds bounds = _calculateBounds(polygonCoordinates);
-    _mapController.animateCamera(CameraUpdate.newLatLngBounds(bounds, 50));
+    _mapController.animateCamera( CameraUpdate.newLatLngBounds(bounds, 50));
   }
   void _setCameraToPolylineBounds(List<LatLng> polylineCoordinates) {
     if (polylineCoordinates.isEmpty) return;
 
     LatLngBounds bounds = _calculateBounds(polylineCoordinates);
-    _mapController.animateCamera(CameraUpdate.newLatLngBounds(bounds, 50));
+    _mapController.animateCamera( CameraUpdate.newLatLngBounds(bounds, 50),);
   }
   LatLngBounds _calculateBounds(List<LatLng> coordinates) {
     double southWestLat = coordinates[0].latitude;
@@ -130,16 +130,15 @@ class _MainHomeState  extends State<MainHome> {
       builder: (context, state) {
         return Scaffold(
           body: Container(
-            height: MediaQuery.sizeOf(context).height / 1.6,
+            height: MediaQuery.sizeOf(context).height / 1.7,
             child: Stack(
               children: [
                 GoogleMap(
-                  zoomControlsEnabled: false,
                   initialCameraPosition: const CameraPosition(
                       bearing: 192.8334901395799,
                       target: LatLng(37.42796133580664, -122.085749655962),
                       tilt: 59.440717697143555,
-                      zoom: 12.4746),
+                      zoom: 13.4746),
                   myLocationEnabled: true,
                   myLocationButtonEnabled: true,
                   polygons: _polygons,
@@ -210,8 +209,8 @@ class _MainHomeState  extends State<MainHome> {
                       ],
                     )),
                 Positioned(
-                    bottom: 70,
-                    right: 25,
+                    bottom: 35,
+                    right: 70,
                     child: Builder(
                       builder: (context) => InkWell(
                         onTap: _getCurrentPosition,
@@ -311,7 +310,7 @@ class MyDraggableSheet extends StatefulWidget {
 class _MyDraggableSheetState extends State<MyDraggableSheet> {
   final sheet = GlobalKey();
   final controller = DraggableScrollableController();
-  int _timer = 20;
+  int _timer = 60;
   late Timer _countdownTimer;
   double value = 1;
 
@@ -364,7 +363,7 @@ class _MyDraggableSheetState extends State<MyDraggableSheet> {
         if (value == 0) {
           timer.cancel();
         } else {
-          value = value - 0.05;
+          value = value - 0.017;
         }
       });
     });
@@ -432,13 +431,11 @@ class _MyDraggableSheetState extends State<MyDraggableSheet> {
                           ],
                         )
                       : Center(
-                          child: Container(
                           child: Text(
                             Strings.thereNoOrdersNow.tr(context),
                             style: const TextStyle(
                                 fontSize: 17, fontWeight: FontWeight.w700),
-                          ),
-                        )),
+                          )),
                 ),
                 if (_timer != 0) const SizedBox(height: 5),
                 if (_timer !=
@@ -466,12 +463,16 @@ class _MyDraggableSheetState extends State<MyDraggableSheet> {
                     height: 3,
                   ),
                 if (_timer != 0)
-                  Text(
-                    '${_timer.toString().padLeft(2, '0')} ${Strings.secondsAutoDecline.tr(context)}',
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: ThemeModel.mainColor,
+                  Container(
+                    padding: EdgeInsets.only(left: 8.0,right: 8.0,bottom: 4,top: 4),
+                    color: Colors.red.shade400,
+                    child: Text(
+                      '${_timer.toString().padLeft(2, '0')} ${Strings.secondsAutoDecline.tr(context)}',
+                      style:  TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 const SizedBox(
