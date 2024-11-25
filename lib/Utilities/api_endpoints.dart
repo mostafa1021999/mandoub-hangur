@@ -1,14 +1,14 @@
 class ApiEndpoints {
   const ApiEndpoints._();
 
-  static const String baseUrl = "https://api.teslm.shop/";
+  static const String baseUrl = "https://canary-api.teslm.shop/";
   static Uri uri(
       {required String path, Map<String, dynamic>? queryParameters}) =>
       Uri(
         scheme: "http",
         host: "147.79.114.89",
         port: 5050,
-        path: path.replaceAll("http://147.79.114.89:5050", ""),
+        path: path.replaceAll("https://canary-api.teslm.shop", ""),
         queryParameters: queryParameters,
       );
   static const String login = "${baseUrl}delivery-partners/login";

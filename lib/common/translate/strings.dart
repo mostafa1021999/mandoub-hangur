@@ -72,4 +72,5 @@ class Strings {
   static const String dayStatistics = "day_statistics";
   static const String monthStatistics = "month_statistics";
   static const String save = "save";
+  static const String month = "month";
 }

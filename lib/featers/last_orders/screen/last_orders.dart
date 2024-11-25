@@ -8,7 +8,6 @@ import 'package:untitled2/common/translate/strings.dart';
 import 'package:untitled2/cubit/rider_cubit.dart';
 import 'package:untitled2/featers/last_orders/controller/order_brief_controller.dart';
 import '../../../common/colors/theme_model.dart';
-import '../../auth/Login/login.dart';
 
 class LastOrder extends StatefulWidget {
   const LastOrder({super.key});
@@ -24,7 +23,9 @@ class LastOrderState extends StateMVC<LastOrder> {
   late OrderBriefController con;
 @override
   void initState() {
-  con.getRiderStatistics(context,'${con.currentDate.year}-${con.currentDate.month.toString().padLeft(2, '0')}-${con.currentDate.day.toString().padLeft(2, '0')}', '${con.currentDate.year}-${con.currentDate.month.toString().padLeft(2, '0')}-${con.currentDate.day.toString().padLeft(2, '0')}');
+  String startDate = '${con.currentDate.toIso8601String().split('T')[0]}T00:00:00.000Z';
+  String endDate = con.currentDate.add(const Duration(days: 1)).toIso8601String();
+  con.getRiderStatistics(context,startDate, endDate);
 
   super.initState();
   }
@@ -43,7 +44,7 @@ class LastOrderState extends StateMVC<LastOrder> {
 
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.only(top: 10.0,bottom: 10),
         child: ListView(children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -53,12 +54,12 @@ class LastOrderState extends StateMVC<LastOrder> {
                 onTap:(){con.goSpacificDay(context);},
                 child: Container(
                     padding:const EdgeInsets.all(5),
-                    decoration: BoxDecoration(color: ThemeModel.of(context).greyFontColor.withOpacity(0.3),borderRadius: BorderRadius.circular(10)),
+                    decoration: BoxDecoration(color: ThemeModel.mainColor.withOpacity(0.7),borderRadius: BorderRadius.circular(10)),
                     child: Row(
                       children: [
-                        const Icon(Icons.date_range_outlined),
+                        const Icon(Icons.date_range_outlined,color: Colors.white,),
                         const SizedBox(width: 5,),
-                        Text(Strings.day.tr(context))
+                        Text(con.viewStatistics=='months'?Strings.month.tr(context):Strings.day.tr(context),style: TextStyle(color: Colors.white,fontWeight: FontWeight.w500,fontSize: 16),)
                       ],
                     )),
               )
@@ -103,6 +104,7 @@ class LastOrderState extends StateMVC<LastOrder> {
             shrinkWrap: true,
               itemCount: deliveryNames.length,
               itemBuilder: (context,index)=>Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   topData(deliveryNames[index],deliveryIcons[index],context),
               GridView.count(
@@ -122,18 +124,32 @@ class LastOrderState extends StateMVC<LastOrder> {
 );
   }
 }
-Widget topData(topName,topIcon,context)=>Row(children: [CircleAvatar(backgroundColor: Colors.grey.shade300,radius: 18, child: Icon(topIcon)),
-const SizedBox(width: 5,),Text('$topName',style: TextStyle(color:ThemeModel.of(context).greyFontColor,fontWeight: FontWeight.w500,fontSize: 20),),
-],);
+Widget topData(topName,topIcon,context)=>Padding(
+  padding: const EdgeInsets.only(top: 10.0,bottom: 10.0),
+  child: Container(
+    padding: const EdgeInsets.all(8.0),
+    decoration: BoxDecoration(color:ThemeModel.mainColor.withOpacity(0.7),borderRadius:language=='en'? BorderRadius.only(topRight: Radius.circular(20),bottomRight: Radius.circular(20))
+        :BorderRadius.only(topLeft: Radius.circular(20),bottomLeft: Radius.circular(20))),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [Icon(topIcon,color: Colors.white,),
+    const SizedBox(width: 10,),Text('$topName',style: TextStyle(color:Colors.white,fontWeight: FontWeight.w500,fontSize: 20),),
+    ],),
+  ),
+);
 Widget deliveryMandoube(nameCard,String type,cardData,context)=>Card(
   color: ThemeModel.of(context).cardColor,
-  child: Column(
-  mainAxisAlignment: MainAxisAlignment.spaceAround,
-  crossAxisAlignment: CrossAxisAlignment.start,
-  children: [
-    Text('$nameCard',style: TextStyle(color: ThemeModel.of(context).greyFontColor,fontWeight: FontWeight.w500),),
-    Row(children: [ Text('$cardData',style: TextStyle(fontSize: 22.0,fontWeight: FontWeight.bold),),
-      const SizedBox(width: 5,),
-      Text(type,style: TextStyle(color: ThemeModel.of(context).greyFontColor,fontWeight: FontWeight.w500),),
-    ],)
-  ],),);
+  child: Padding(
+    padding: const EdgeInsets.all(10.0),
+    child: Column(
+    mainAxisAlignment: MainAxisAlignment.spaceAround,
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text('$nameCard',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w500),),
+      Row(children: [ Text('$cardData',style: TextStyle(fontSize: 22.0,fontWeight: FontWeight.bold),),
+        const SizedBox(width: 5,),
+        Text(type,style: TextStyle(color: ThemeModel.of(context).greyFontColor,fontWeight: FontWeight.w500),),
+      ],)
+    ],),
+  ),);

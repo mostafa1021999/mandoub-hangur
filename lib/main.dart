@@ -81,7 +81,7 @@ class _MyAppState extends State<MyApp> {
               home: SharedPref.getToken() != null
                   ? const HomePage()
                   : LoginScreen(),
-              locale: Locale(RiderCubit.get(context).lang),
+              locale: Locale(language ?? 'ar'),
               localizationsDelegates: const [
                 AppLocale.delegate,
                 GlobalMaterialLocalizations.delegate,

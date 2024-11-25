@@ -32,10 +32,12 @@ class OrderBriefController extends ControllerMVC {
   }
   DateTime currentDate = DateTime.now();
   void goBackOneDay(context) {
-    setState((){
+    setState(() {
       currentDate = currentDate.subtract(Duration(days: 1));
     });
-    getRiderStatistics(context,'${currentDate.year}-${currentDate.month.toString().padLeft(2, '0')}-${currentDate.day.toString().padLeft(2, '0')}', '${currentDate.year}-${currentDate.month.toString().padLeft(2, '0')}-${currentDate.day.toString().padLeft(2, '0')}');
+    String startDate = currentDate.toIso8601String().split('T')[0] + 'T00:00:00.000Z';
+    String endDate = currentDate.add(Duration(days: 1)).toIso8601String();
+    getRiderStatistics(context, startDate, endDate);
   }
   void goBackOneMonth(BuildContext context) {
     setState(() {
@@ -82,16 +84,18 @@ class OrderBriefController extends ControllerMVC {
 
 
   void goForwardOneDay(context) {
-    setState((){
-    if (currentDate.isBefore(DateTime.now())) {
-      if ((currentDate.isAfter(DateTime.now()))) {
-        currentDate = DateTime.now();
-      } else {
-        currentDate = currentDate.add(Duration(days: 1));
+    setState(() {
+      if (currentDate.isBefore(DateTime.now())) {
+        if (currentDate.isAfter(DateTime.now())) {
+          currentDate = DateTime.now();
+        } else {
+          currentDate = currentDate.add(Duration(days: 1));
+        }
       }
-    }
     });
-    getRiderStatistics(context,'${currentDate.year}-${currentDate.month.toString().padLeft(2, '0')}-${currentDate.day.toString().padLeft(2, '0')}', '${currentDate.year}-${currentDate.month.toString().padLeft(2, '0')}-${currentDate.day.toString().padLeft(2, '0')}');
+    String startDate = currentDate.toIso8601String().split('T')[0] + 'T00:00:00.000Z';
+    String endDate = currentDate.add(Duration(days: 1)).toIso8601String();
+    getRiderStatistics(context, startDate, endDate);
   }
   void goForwardOneMonth(BuildContext context) {
     setState(() {
@@ -177,11 +181,9 @@ class OrderBriefController extends ControllerMVC {
 
         // Update viewStatistics and call getRiderStatistics
         viewStatistics = 'days';
-        getRiderStatistics(
-          context,
-          '${currentDate.year}-${currentDate.month.toString().padLeft(2, '0')}-${currentDate.day.toString().padLeft(2, '0')}',
-          '${currentDate.year}-${currentDate.month.toString().padLeft(2, '0')}-${currentDate.day.toString().padLeft(2, '0')}',
-        );
+        String startDate = '${currentDate.toIso8601String().split('T')[0]}T00:00:00.000Z';
+        String endDate = currentDate.add(const Duration(days: 1)).toIso8601String();
+        getRiderStatistics(context,startDate, endDate);
       }
     });
   }
