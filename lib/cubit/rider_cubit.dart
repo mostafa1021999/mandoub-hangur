@@ -11,7 +11,7 @@ import '../Utilities/shared_preferences.dart';
 import '../common/constants/constanat.dart';
 import '../featers/Profile/profile_view.dart';
 import '../featers/home/screen/main_page.dart';
-import '../featers/last_orders/last_orders.dart';
+import '../featers/last_orders/screen/last_orders.dart';
 import '../featers/order_handle/order_handle.dart';
 import '../shared_prefrence/shared prefrence.dart';
 
@@ -69,35 +69,7 @@ class RiderCubit extends Cubit<MandoubState> {
     emit(SetPassword());
   }
 
-  DateTime currentDate = DateTime.now();
-  void goBackOneDay() {
-    currentDate = currentDate.subtract(Duration(days: 1));
-    emit(Reload());
-  }
 
-  void goForwardOneDay() {
-    if (currentDate.isBefore(DateTime.now())) {
-      if ((currentDate.isAfter(DateTime.now()))) {
-        currentDate = DateTime.now();
-      } else {
-        currentDate = currentDate.add(Duration(days: 1));
-      }
-      emit(Reload());
-    }
-  }
-
-  Future<void> goSpacificDay(context) async {
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: currentDate,
-      firstDate: DateTime(1980),
-      lastDate: DateTime.now(),
-    );
-    if (pickedDate != null && pickedDate != currentDate) {
-      currentDate = pickedDate;
-      emit(Reload());
-    }
-  }
 
   Future<void> _getCurrentLocation() async {
     try {

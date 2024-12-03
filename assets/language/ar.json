@@ -23,7 +23,8 @@
   "day_starts": "بدا اليوم فى الساعه",
   "order": "الطلبات",
   "attendance": "الحضور",
-  "total_orders": "اجمالى الطلبات",
+  "total_orders": "الطلبات المقبولة",
+  "rejected_orders": "الطلبات المرفوضة",
   "delivery_rate": "معدل التوصيل",
   "average_time": "متوسط الوقت",
   "maximum_time": "كاش",
@@ -32,7 +33,8 @@
   "total_cash_collected": "اجمالى الكاش المجمع",
   "cash": "كاش",
   "hours": "ساعة",
-  "day": "يوم",
+  "day": "يومى",
+  "month": "شهري",
   "sar": "ريال",
   "order_money": "قيمة الطلب",
   "there_no_orders_now": "لا توجد طلبات الحين",
@@ -65,5 +67,8 @@
   "notifications" : "الاشعارات",
   "zone_work" : "منطقة العمل",
   "not_active" : "غير نشط",
-  "active" : "نشط"
+  "active" : "نشط",
+  "day_statistics" : "الاحصاء اليومى",
+  "month_statistics" : "الاحصاء الشهرى",
+  "save" : "حفظ"
 }

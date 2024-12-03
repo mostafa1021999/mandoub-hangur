@@ -37,10 +37,11 @@ class _ChatState extends StateMVC<Chat> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(70.0),
-          child: appBarWithIcons(Strings.callCenter.tr(context),
-              Images.callCenterImage, true, context)),
+      appBar: AppBar(
+        title: Text(
+          Strings.callCenter.tr(context),
+        ),
+      ),
       body: con.loading
           ? const Center(
               child: CircularProgressIndicator(),

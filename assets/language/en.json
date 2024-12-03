@@ -24,7 +24,7 @@
   "day_starts": "Day Starts at",
   "order": "Orders",
   "attendance": "Attendance",
-  "total_orders": "Total orders",
+  "total_orders": "Accepted orders",
   "delivery_rate": "Delivery Rate",
   "average_time": "Average Time",
   "maximum_time": "Maximum Time",
@@ -32,8 +32,10 @@
   "hours": "hours",
   "total_check_in_time": "Deliver-in Time",
   "total_cash_collected": "Total Cash Collected",
+  "rejected_orders": "Rejected Orders",
   "cash": "Cash",
-  "day": "Day",
+  "day": "Daily",
+  "month": "Monthly",
   "sar": "SAR",
   "order_money": "Order Money",
   "there_no_orders_now": "There is no orders now",
@@ -66,5 +68,8 @@
   "notifications" : "Notifications",
   "zone_work" : "Zone work",
   "not_active" : "Not active",
-  "active" : "Active"
+  "active" : "Active",
+  "day_statistics" : "Day statistics",
+  "month_statistics" : "Month statistics",
+  "save" : "Save"
 }

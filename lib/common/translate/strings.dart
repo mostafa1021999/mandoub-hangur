@@ -68,4 +68,9 @@ class Strings {
   static const String zoneWork = "zone_work";
   static const String notActive = "not_active";
   static const String active = "active";
+  static const String rejectedOrders = "rejected_orders";
+  static const String dayStatistics = "day_statistics";
+  static const String monthStatistics = "month_statistics";
+  static const String save = "save";
+  static const String month = "month";
 }
