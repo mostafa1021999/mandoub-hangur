@@ -4,9 +4,10 @@ import '../../Core/Error/exceptions.dart';
 import '../../Core/Error/failures.dart';
 import '../../Core/Network/custom_either.dart';
 import '../../Utilities/api_endpoints.dart';
+import 'Models/accept_order_model.dart';
 
 class OrdersDataHandler {
-  static Future<Either<Failure, Map<String, dynamic>>> acceptOrder(
+  static Future<Either<Failure, AcceptOrderModel>> acceptOrder(
       {required String orderID}) async {
     try {
       Map<String, dynamic> response =
@@ -17,7 +18,9 @@ class OrdersDataHandler {
           return data;
         },
       ).getResponse(printBody: false);
-      return Either.right(response);
+      return Either.right(
+        AcceptOrderModel.fromJson(response),
+      );
     } on ServerException catch (failure) {
       return Either.left(
         ServerFailure(failure.errorMessageModel),

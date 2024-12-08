@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../../common/constants/constanat.dart';
@@ -13,7 +13,9 @@ class SocketService {
   // Connect and listen to notifications
   void connectAndSubscribe(String userId, String userType) {
     _socket = IO.io(
-      'http://notifications.teslm.shop',
+      kDebugMode
+          ? 'http://canary-notifications.teslm.shop'
+          : 'http://notifications.teslm.shop',
       IO.OptionBuilder()
           .setTransports(['websocket'])
           .disableAutoConnect()

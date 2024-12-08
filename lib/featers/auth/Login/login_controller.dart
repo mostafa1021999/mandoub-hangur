@@ -65,6 +65,7 @@ class LoginController extends ControllerMVC {
     final result = await LoginDataHandler.login(
         residencyNumber: idController.text, password: passwordController.text);
     result.fold((l) {
+      print("error is >>>>${l.errorModel.statusMessage}");
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: Colors.red.shade400,
         content: Align(

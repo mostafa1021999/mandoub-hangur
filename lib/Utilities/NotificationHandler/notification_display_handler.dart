@@ -1,5 +1,7 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+import '../../featers/order_handle/orders_data_handler.dart';
+
 class NotificationService {
   static final FlutterLocalNotificationsPlugin _notificationsPlugin =
       FlutterLocalNotificationsPlugin();
@@ -21,6 +23,7 @@ class NotificationService {
         // Check for action ID
         if (notificationResponse.actionId == 'confirmOrder') {
           // Handle the action button tap
+          OrdersDataHandler.acceptOrder(orderID: notificationResponse.payload!);
           print('Confirm Action button pressed!');
           // Add your action handling logic here
         }

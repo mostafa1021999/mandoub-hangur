@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:untitled2/Utilities/extensions.dart';
 import 'package:untitled2/common/translate/app_local.dart';
 import 'package:untitled2/common/translate/strings.dart';
@@ -17,7 +16,6 @@ import '../../../common/constants/constanat.dart';
 import '../../../model/get_rider_data_model.dart';
 import '../../Notifications/notifications_view.dart';
 import '../../Profile/navigators/UserData/user_data_controller.dart';
-import '../../Profile/navigators/UserData/user_data_view.dart';
 
 class MainHome extends StatefulWidget {
   const MainHome({super.key});
@@ -26,7 +24,7 @@ class MainHome extends StatefulWidget {
   createState() => _MainHomeState();
 }
 
-class _MainHomeState  extends State<MainHome> {
+class _MainHomeState extends State<MainHome> {
   late UserDataController con;
   late GoogleMapController _mapController;
   final Completer<GoogleMapController> _controller =
@@ -51,16 +49,21 @@ class _MainHomeState  extends State<MainHome> {
     });
     super.initState();
   }
+
   Set<Polygon> _polygons = {};
   bool isSwitched = false;
   List<LatLng> getPolylinePoints(Area area) {
-    List<LatLng> points = area.coordinates?.map((coord) {
-      final point = coord.point;
-      if (point != null && point.coordinates != null) {
-        return LatLng(point.coordinates![1], point.coordinates![0]);
-      }
-      return null;
-    }).whereType<LatLng>().toList() ?? [];
+    List<LatLng> points = area.coordinates
+            ?.map((coord) {
+              final point = coord.point;
+              if (point != null && point.coordinates != null) {
+                return LatLng(point.coordinates![1], point.coordinates![0]);
+              }
+              return null;
+            })
+            .whereType<LatLng>()
+            .toList() ??
+        [];
 
     // Add the first point to the end to close the polygon
     if (points.isNotEmpty) {
@@ -69,6 +72,7 @@ class _MainHomeState  extends State<MainHome> {
 
     return points;
   }
+
   void _createPolyline() {
     // Get coordinates for the polygon from the userData area
     List<LatLng> polygonCoordinates = getPolylinePoints(con.userData!.area!);
@@ -77,9 +81,11 @@ class _MainHomeState  extends State<MainHome> {
     final polygon = Polygon(
       polygonId: PolygonId("polygon_${con.userData!.id}"),
       points: polygonCoordinates,
-      strokeColor: Colors.blue.withOpacity(0.6), // Blue color with 70% opacity for border
+      strokeColor: Colors.blue
+          .withOpacity(0.6), // Blue color with 70% opacity for border
       strokeWidth: 2,
-      fillColor: Colors.blue.withOpacity(0.2), // Blue color with 30% opacity for fill
+      fillColor:
+          Colors.blue.withOpacity(0.2), // Blue color with 30% opacity for fill
     );
 
     setState(() {
@@ -95,14 +101,18 @@ class _MainHomeState  extends State<MainHome> {
     if (polygonCoordinates.isEmpty) return;
 
     LatLngBounds bounds = _calculateBounds(polygonCoordinates);
-    _mapController.animateCamera( CameraUpdate.newLatLngBounds(bounds, 50));
+    _mapController.animateCamera(CameraUpdate.newLatLngBounds(bounds, 50));
   }
+
   void _setCameraToPolylineBounds(List<LatLng> polylineCoordinates) {
     if (polylineCoordinates.isEmpty) return;
 
     LatLngBounds bounds = _calculateBounds(polylineCoordinates);
-    _mapController.animateCamera( CameraUpdate.newLatLngBounds(bounds, 50),);
+    _mapController.animateCamera(
+      CameraUpdate.newLatLngBounds(bounds, 50),
+    );
   }
+
   LatLngBounds _calculateBounds(List<LatLng> coordinates) {
     double southWestLat = coordinates[0].latitude;
     double southWestLng = coordinates[0].longitude;
@@ -121,6 +131,7 @@ class _MainHomeState  extends State<MainHome> {
       northeast: LatLng(northEastLat, northEastLng),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<RiderCubit, MandoubState>(
@@ -144,7 +155,8 @@ class _MainHomeState  extends State<MainHome> {
                   polygons: _polygons,
                   onMapCreated: (GoogleMapController controller) async {
                     _mapController = controller;
-                    _setCameraToPolylineBounds(getPolylinePoints(con.userData!.area!));
+                    _setCameraToPolylineBounds(
+                        getPolylinePoints(con.userData!.area!));
                     _controller.complete(controller);
                   },
                 ),
@@ -170,30 +182,44 @@ class _MainHomeState  extends State<MainHome> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                         Container(
-                           padding: EdgeInsets.only(left: 7, right: 7,),
-                           decoration: BoxDecoration(
-                             color: ThemeModel.of(context).cardsColor,
-                             borderRadius: BorderRadius.circular(20),
-                           ),
-                           child: Row(
-                             children: [
-                               Text(isSwitched? Strings.active.tr(context) :Strings.notActive.tr(context) , style: TextStyle(color:isSwitched?isDark??false?  Colors.white:Colors.black: Colors.grey.shade600),),
-                               Switch(
+                        Container(
+                          padding: EdgeInsets.only(
+                            left: 7,
+                            right: 7,
+                          ),
+                          decoration: BoxDecoration(
+                            color: ThemeModel.of(context).cardsColor,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Row(
+                            children: [
+                              Text(
+                                isSwitched
+                                    ? Strings.active.tr(context)
+                                    : Strings.notActive.tr(context),
+                                style: TextStyle(
+                                    color: isSwitched
+                                        ? isDark ?? false
+                                            ? Colors.white
+                                            : Colors.black
+                                        : Colors.grey.shade600),
+                              ),
+                              Switch(
                                 value: isSwitched,
                                 onChanged: (value) {
-                                setState(() {
-                                 isSwitched = value;
-                                     });
+                                  setState(() {
+                                    isSwitched = value;
+                                  });
                                 },
-                                 activeColor: ThemeModel.mainColor,
-                                 activeTrackColor: ThemeModel.mainColor.withOpacity(0.4),
-                                 inactiveThumbColor: Colors.grey,
-                                 inactiveTrackColor: Colors.grey.shade300,
-                               ),
-                             ],
-                           ),
-                         ),
+                                activeColor: ThemeModel.mainColor,
+                                activeTrackColor:
+                                    ThemeModel.mainColor.withOpacity(0.4),
+                                inactiveThumbColor: Colors.grey,
+                                inactiveTrackColor: Colors.grey.shade300,
+                              ),
+                            ],
+                          ),
+                        ),
                         16.h.heightBox,
                         GestureDetector(
                           onTap: () {
@@ -432,10 +458,10 @@ class _MyDraggableSheetState extends State<MyDraggableSheet> {
                         )
                       : Center(
                           child: Text(
-                            Strings.thereNoOrdersNow.tr(context),
-                            style: const TextStyle(
-                                fontSize: 17, fontWeight: FontWeight.w700),
-                          )),
+                          Strings.thereNoOrdersNow.tr(context),
+                          style: const TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.w700),
+                        )),
                 ),
                 if (_timer != 0) const SizedBox(height: 5),
                 if (_timer !=
@@ -464,11 +490,12 @@ class _MyDraggableSheetState extends State<MyDraggableSheet> {
                   ),
                 if (_timer != 0)
                   Container(
-                    padding: EdgeInsets.only(left: 8.0,right: 8.0,bottom: 4,top: 4),
+                    padding: EdgeInsets.only(
+                        left: 8.0, right: 8.0, bottom: 4, top: 4),
                     color: Colors.red.shade400,
                     child: Text(
                       '${_timer.toString().padLeft(2, '0')} ${Strings.secondsAutoDecline.tr(context)}',
-                      style:  TextStyle(
+                      style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                         color: Colors.white,
