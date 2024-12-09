@@ -71,5 +71,6 @@
   "active" : "Active",
   "day_statistics" : "Day statistics",
   "month_statistics" : "Month statistics",
-  "save" : "Save"
+  "save" : "Save",
+  "noNotificationsYet": "No notifications yet..!"
 }

@@ -44,15 +44,22 @@ class _NotificationsViewState extends State<NotificationsView> {
           ),
           body: state is NotificationsLoading
               ? const Center(child: CircularProgressIndicator())
-              : ListView.separated(
-                  itemCount: cubit.notifications.length,
-                  separatorBuilder: (context, index) => 4.h.heightBox,
-                  itemBuilder: (context, index) {
-                    return NotificationWidget(
-                      notificationModel: cubit.notifications[index],
-                    );
-                  },
-                ).paddingSymmetric(horizontal: 8.w),
+              : cubit.notifications.isEmpty
+                  ? Center(
+                      child: Text(
+                        Strings.noNotificationsYet.tr(context),
+                        style: TextStyleHelper.of(context).medium18,
+                      ),
+                    )
+                  : ListView.separated(
+                      itemCount: cubit.notifications.length,
+                      separatorBuilder: (context, index) => 4.h.heightBox,
+                      itemBuilder: (context, index) {
+                        return NotificationWidget(
+                          notificationModel: cubit.notifications[index],
+                        );
+                      },
+                    ).paddingSymmetric(horizontal: 8.w),
         );
       },
     );

@@ -70,5 +70,6 @@
   "active" : "نشط",
   "day_statistics" : "الاحصاء اليومى",
   "month_statistics" : "الاحصاء الشهرى",
-  "save" : "حفظ"
+  "save" : "حفظ",
+  "noNotificationsYet": "لايوجد اشعارات حتى الان..!"
 }
