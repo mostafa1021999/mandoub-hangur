@@ -15,6 +15,7 @@ import 'common/translate/app_local.dart';
 import 'dio/dio.dart';
 import 'featers/Notifications/cubit/notifications_cubit.dart';
 import 'featers/auth/Login/login.dart';
+import 'featers/home/cubit/home_cubit.dart';
 import 'featers/home/screen/home.dart';
 
 void main() async {
@@ -39,6 +40,8 @@ void main() async {
   await Save.init();
   runApp(const MyApp());
 }
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -69,11 +72,13 @@ class _MyAppState extends State<MyApp> {
           ),
           BlocProvider(create: (context) => DragFilesCubit()),
           BlocProvider(create: (context) => NotificationsCubit()),
+          BlocProvider(create: (context) => HomeCubit()),
         ],
         child: BlocBuilder<RiderCubit, MandoubState>(builder: (context, state) {
           return ScreenUtilInit(
             designSize: const Size(428, 926),
             child: MaterialApp(
+              navigatorKey: navigatorKey,
               debugShowCheckedModeBanner: false,
               title: 'Mandoub Hangur',
               darkTheme: darkMode,

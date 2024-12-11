@@ -13,8 +13,10 @@ class OrdersDataHandler {
       AcceptOrderModel response = await GenericRequest<AcceptOrderModel>(
         method: HttpRequestHandler.postJson(
             url: '${ApiEndpoints.orders}/$orderID/accept', bodyJson: {}),
-        fromMap: AcceptOrderModel.fromJson,
-      ).getObject(printBody: false);
+        fromMap: (data) {
+          return AcceptOrderModel.fromJson(data);
+        },
+      ).getResponse(printBody: false);
       return Either.right(response);
     } on ServerException catch (failure) {
       return Either.left(

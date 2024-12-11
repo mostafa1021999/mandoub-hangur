@@ -3,7 +3,7 @@ class ApiEndpoints {
 
   static const String baseUrl = "https://canary-api.teslm.shop/";
   static Uri uri(
-      {required String path, Map<String, dynamic>? queryParameters}) =>
+          {required String path, Map<String, dynamic>? queryParameters}) =>
       Uri(
         scheme: "http",
         host: "147.79.114.89",
@@ -22,4 +22,6 @@ class ApiEndpoints {
   static const String orders = "${baseUrl}orders/delivery-partners";
   static const String deliveryManStatistics = "delivery-partners/me/statistics";
   static String notifications = '${baseUrl}notifications/deliveryPartner';
+  static String requestedOrders =
+      '${baseUrl}orders/delivery-partners/requested';
 }

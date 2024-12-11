@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../../common/constants/constanat.dart';
+import '../../main.dart';
 import '../shared_preferences.dart';
 import 'notification_display_handler.dart';
 
@@ -87,10 +89,35 @@ class SocketService {
 
       NotificationService.showNotification(1, title, body, sourceID,
           durationInSeconds: 60);
+      _showNotificationDialog(title, body);
     } catch (e, stackTrace) {
       debugPrint("Error when showing notification: $e");
       debugPrint("Stack trace: $stackTrace");
     }
+  }
+
+  ///   ----------------   Show dialog when received notification
+  // Function to show dialog on notification
+  void _showNotificationDialog(String title, String body) {
+    showDialog(
+      context: navigatorKey.currentState!.context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          content: Text(body, style: TextStyle(fontSize: 16)),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   // Disconnect the socket
