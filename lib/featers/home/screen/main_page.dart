@@ -6,9 +6,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:untitled2/Utilities/extensions.dart';
+import 'package:untitled2/Utilities/shared_preferences.dart';
 import 'package:untitled2/common/translate/app_local.dart';
 import 'package:untitled2/common/translate/strings.dart';
-import 'package:untitled2/cubit/rider_cubit.dart';
+import 'package:untitled2/featers/home/Models/requested_order_model.dart';
+import 'package:untitled2/featers/home/cubit/home_cubit.dart';
 
 import '../../../common/colors/theme_model.dart';
 import '../../../common/components.dart';
@@ -16,6 +18,7 @@ import '../../../common/constants/constanat.dart';
 import '../../../model/get_rider_data_model.dart';
 import '../../Notifications/notifications_view.dart';
 import '../../Profile/navigators/UserData/user_data_controller.dart';
+import '../../order_handle/orders_data_handler.dart';
 
 class MainHome extends StatefulWidget {
   const MainHome({super.key});
@@ -39,6 +42,8 @@ class _MainHomeState extends State<MainHome> {
 
   @override
   void initState() {
+    ///    --------   Get Requested Orders   --------
+    context.read<HomeCubit>().getRequestedOrders();
     con = UserDataController();
     _initMapController();
     Future.delayed(Duration.zero, () async {
@@ -134,20 +139,25 @@ class _MainHomeState extends State<MainHome> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<RiderCubit, MandoubState>(
+    return BlocConsumer<HomeCubit, HomeStates>(
       listener: (context, state) {
         // TODO: implement listener
       },
       builder: (context, state) {
+        final HomeCubit cubit = HomeCubit.get(context);
         return Scaffold(
-          body: Container(
+          body: SizedBox(
             height: MediaQuery.sizeOf(context).height / 1.7,
             child: Stack(
               children: [
                 GoogleMap(
-                  initialCameraPosition: const CameraPosition(
+                  initialCameraPosition: CameraPosition(
                       bearing: 192.8334901395799,
-                      target: LatLng(37.42796133580664, -122.085749655962),
+                      target: LatLng(
+                          double.tryParse(SharedPref.getLatLng()?[0] ?? "") ??
+                              37.42796133580664,
+                          double.tryParse(SharedPref.getLatLng()?[1] ?? "") ??
+                              -122.085749655962),
                       tilt: 59.440717697143555,
                       zoom: 13.4746),
                   myLocationEnabled: true,
@@ -251,7 +261,12 @@ class _MainHomeState extends State<MainHome> {
               ],
             ),
           ),
-          bottomSheet: const MyDraggableSheet(child: BottomSheetDummyUI()),
+          bottomSheet: MyDraggableSheet(
+              orderId: cubit.requestedOrders.lastOrNull?.id,
+              child: BottomSheetDummyUI(
+                requestedOrderModel:
+                    cubit.requestedOrders.lastOrNull ?? RequestedOrderModel(),
+              )),
         );
       },
     );
@@ -289,7 +304,8 @@ class _MainHomeState extends State<MainHome> {
 }
 
 class BottomSheetDummyUI extends StatelessWidget {
-  const BottomSheetDummyUI({super.key});
+  final RequestedOrderModel requestedOrderModel;
+  const BottomSheetDummyUI({super.key, required this.requestedOrderModel});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -307,7 +323,7 @@ class BottomSheetDummyUI extends StatelessWidget {
             Align(
                 alignment: Alignment.center,
                 child: Text(
-                  '450 ${Strings.sar.tr(context)}',
+                  '${requestedOrderModel.subtotal ?? "0.0"} ${Strings.sar.tr(context)}',
                   style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.w700,
@@ -317,9 +333,19 @@ class BottomSheetDummyUI extends StatelessWidget {
             seperate(),
             const SizedBox(height: 15),
             orderDesign(
-                true, '2.6km', '12min', 'الطازج', 'مكة - حى الشوقيه', context),
+                true,
+                '2.6km',
+                '12min',
+                '${requestedOrderModel.provider?.providerName?.ar}',
+                'مكة - حى الشوقيه',
+                context),
             orderDesign(
-                false, '1.5km', '8min', 'العميل', 'مكة - حى الشوقيه', context),
+                false,
+                '1.5km',
+                '8min',
+                '${requestedOrderModel.customer?.name}',
+                'مكة - حى الشوقيه',
+                context),
           ],
         ));
   }
@@ -327,7 +353,8 @@ class BottomSheetDummyUI extends StatelessWidget {
 
 class MyDraggableSheet extends StatefulWidget {
   final Widget child;
-  const MyDraggableSheet({super.key, required this.child});
+  final String? orderId;
+  const MyDraggableSheet({super.key, required this.child, this.orderId});
 
   @override
   State<MyDraggableSheet> createState() => _MyDraggableSheetState();
@@ -512,7 +539,10 @@ class _MyDraggableSheetState extends State<MyDraggableSheet> {
                     Strings.acceptOrder.tr(context),
                     _timer != 0
                         ? () {
-                            // OrdersDataHandler.acceptOrder(orderID: )
+                            if (widget.orderId == null) return;
+                            OrdersDataHandler.acceptOrder(
+                                orderID: widget.orderId!);
+                            print('Confirm Action button pressed!');
                           }
                         : null,
                   ),

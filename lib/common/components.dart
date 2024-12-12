@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:untitled2/Utilities/extensions.dart';
 import 'package:untitled2/common/translate/app_local.dart';
 import 'package:untitled2/common/translate/strings.dart';
 import 'package:untitled2/cubit/rider_cubit.dart';
@@ -103,7 +104,7 @@ Widget bottom(
       onPressed: onTap,
       child: Center(
           child: Text(data,
-              style: TextStyle(
+              style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 25,
                   color: Colors.white))));
@@ -113,8 +114,7 @@ Widget orderDesign(restaurant, distance, time, name, locationName, context) =>
     Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          width: MediaQuery.sizeOf(context).width / 1.3,
+        SizedBox(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
@@ -148,7 +148,7 @@ Widget orderDesign(restaurant, distance, time, name, locationName, context) =>
               ),
             ],
           ),
-        ),
+        ).expand,
         const SizedBox(
           width: 10,
         ),
