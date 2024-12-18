@@ -72,5 +72,7 @@
   "day_statistics" : "Day statistics",
   "month_statistics" : "Month statistics",
   "save" : "Save",
-  "noNotificationsYet": "No notifications yet..!"
+  "noNotificationsYet": "No notifications yet..!",
+  "orderAcceptedSuccessfully": "Order accepted successfully",
+  "orderTracking": "Order Tracking"
 }

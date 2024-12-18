@@ -1,5 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:untitled2/common/translate/app_local.dart';
+
+import '../../common/translate/strings.dart';
 
 class OrderHandle extends StatelessWidget {
   const OrderHandle({super.key});
@@ -7,7 +9,10 @@ class OrderHandle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: Text('handddddddddddddddddddle'),),
+      appBar: AppBar(
+        title: Text(Strings.orderTracking.tr(context)),
+      ),
+      body: Center(),
     );
   }
 }

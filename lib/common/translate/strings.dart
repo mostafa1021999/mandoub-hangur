@@ -74,4 +74,6 @@ class Strings {
   static const String save = "save";
   static const String month = "month";
   static const String noNotificationsYet = "noNotificationsYet";
+  static const String orderAcceptedSuccessfully = "orderAcceptedSuccessfully";
+  static const String orderTracking = "orderTracking";
 }

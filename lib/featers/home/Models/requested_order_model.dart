@@ -20,6 +20,7 @@ class RequestedOrderModel {
   final String? paymentStatus;
   final bool? isViewed;
   final dynamic orderImage;
+  final Branch? branch;
   final Customer? customer;
   final List<Item>? items;
   final dynamic deliveryPartner;
@@ -47,6 +48,7 @@ class RequestedOrderModel {
     this.paymentStatus,
     this.isViewed,
     this.orderImage,
+    this.branch,
     this.customer,
     this.items,
     this.deliveryPartner,
@@ -75,6 +77,7 @@ class RequestedOrderModel {
     String? paymentStatus,
     bool? isViewed,
     dynamic orderImage,
+    Branch? branch,
     Customer? customer,
     List<Item>? items,
     dynamic deliveryPartner,
@@ -102,6 +105,7 @@ class RequestedOrderModel {
         paymentStatus: paymentStatus ?? this.paymentStatus,
         isViewed: isViewed ?? this.isViewed,
         orderImage: orderImage ?? this.orderImage,
+        branch: branch ?? this.branch,
         customer: customer ?? this.customer,
         items: items ?? this.items,
         deliveryPartner: deliveryPartner ?? this.deliveryPartner,
@@ -111,9 +115,9 @@ class RequestedOrderModel {
   factory RequestedOrderModel.fromJson(Map<String, dynamic> json) =>
       RequestedOrderModel(
         id: json["id"],
-        totalPrice: json["totalPrice"],
+        totalPrice: json["totalPrice"]?.toDouble(),
         shippingPrice: json["shippingPrice"],
-        subtotal: json["subtotal"],
+        subtotal: json["subtotal"]?.toDouble(),
         discount: json["discount"],
         coupon: json["coupon"],
         location: json["location"] == null
@@ -139,6 +143,7 @@ class RequestedOrderModel {
         paymentStatus: json["paymentStatus"],
         isViewed: json["isViewed"],
         orderImage: json["orderImage"],
+        branch: json["branch"] == null ? null : Branch.fromJson(json["branch"]),
         customer: json["customer"] == null
             ? null
             : Customer.fromJson(json["customer"]),
@@ -173,6 +178,7 @@ class RequestedOrderModel {
         "paymentStatus": paymentStatus,
         "isViewed": isViewed,
         "orderImage": orderImage,
+        "branch": branch?.toJson(),
         "customer": customer?.toJson(),
         "items": items == null
             ? []
@@ -182,12 +188,202 @@ class RequestedOrderModel {
       };
 }
 
+class Branch {
+  final String? id;
+  final BranchName? branchName;
+  final Location? location;
+  final String? addressDescription;
+  final String? receiptNotes;
+  final String? approvalStatus;
+  final dynamic rejectionNotes;
+  final BranchName? description;
+  final String? openTime;
+  final List<String>? workDays;
+  final String? closeTime;
+  final String? status;
+  final String? busynessStatus;
+  final int? totalReviews;
+  final int? reviewCount;
+  final String? image;
+  final String? phoneNumber;
+
+  Branch({
+    this.id,
+    this.branchName,
+    this.location,
+    this.addressDescription,
+    this.receiptNotes,
+    this.approvalStatus,
+    this.rejectionNotes,
+    this.description,
+    this.openTime,
+    this.workDays,
+    this.closeTime,
+    this.status,
+    this.busynessStatus,
+    this.totalReviews,
+    this.reviewCount,
+    this.image,
+    this.phoneNumber,
+  });
+
+  Branch copyWith({
+    String? id,
+    BranchName? branchName,
+    Location? location,
+    String? addressDescription,
+    String? receiptNotes,
+    String? approvalStatus,
+    dynamic rejectionNotes,
+    BranchName? description,
+    String? openTime,
+    List<String>? workDays,
+    String? closeTime,
+    String? status,
+    String? busynessStatus,
+    int? totalReviews,
+    int? reviewCount,
+    String? image,
+    String? phoneNumber,
+  }) =>
+      Branch(
+        id: id ?? this.id,
+        branchName: branchName ?? this.branchName,
+        location: location ?? this.location,
+        addressDescription: addressDescription ?? this.addressDescription,
+        receiptNotes: receiptNotes ?? this.receiptNotes,
+        approvalStatus: approvalStatus ?? this.approvalStatus,
+        rejectionNotes: rejectionNotes ?? this.rejectionNotes,
+        description: description ?? this.description,
+        openTime: openTime ?? this.openTime,
+        workDays: workDays ?? this.workDays,
+        closeTime: closeTime ?? this.closeTime,
+        status: status ?? this.status,
+        busynessStatus: busynessStatus ?? this.busynessStatus,
+        totalReviews: totalReviews ?? this.totalReviews,
+        reviewCount: reviewCount ?? this.reviewCount,
+        image: image ?? this.image,
+        phoneNumber: phoneNumber ?? this.phoneNumber,
+      );
+
+  factory Branch.fromJson(Map<String, dynamic> json) => Branch(
+        id: json["id"],
+        branchName: json["branch_name"] == null
+            ? null
+            : BranchName.fromJson(json["branch_name"]),
+        location: json["location"] == null
+            ? null
+            : Location.fromJson(json["location"]),
+        addressDescription: json["address_description"],
+        receiptNotes: json["receipt_notes"],
+        approvalStatus: json["approval_status"],
+        rejectionNotes: json["rejection_notes"],
+        description: json["description"] == null
+            ? null
+            : BranchName.fromJson(json["description"]),
+        openTime: json["openTime"],
+        workDays: json["workDays"] == null
+            ? []
+            : List<String>.from(json["workDays"]!.map((x) => x)),
+        closeTime: json["closeTime"],
+        status: json["status"],
+        busynessStatus: json["busynessStatus"],
+        totalReviews: json["totalReviews"],
+        reviewCount: json["reviewCount"],
+        image: json["image"],
+        phoneNumber: json["phoneNumber"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "branch_name": branchName?.toJson(),
+        "location": location?.toJson(),
+        "address_description": addressDescription,
+        "receipt_notes": receiptNotes,
+        "approval_status": approvalStatus,
+        "rejection_notes": rejectionNotes,
+        "description": description?.toJson(),
+        "openTime": openTime,
+        "workDays":
+            workDays == null ? [] : List<dynamic>.from(workDays!.map((x) => x)),
+        "closeTime": closeTime,
+        "status": status,
+        "busynessStatus": busynessStatus,
+        "totalReviews": totalReviews,
+        "reviewCount": reviewCount,
+        "image": image,
+        "phoneNumber": phoneNumber,
+      };
+}
+
+class BranchName {
+  final String? ar;
+  final String? en;
+
+  BranchName({
+    this.ar,
+    this.en,
+  });
+
+  BranchName copyWith({
+    String? ar,
+    String? en,
+  }) =>
+      BranchName(
+        ar: ar ?? this.ar,
+        en: en ?? this.en,
+      );
+
+  factory BranchName.fromJson(Map<String, dynamic> json) => BranchName(
+        ar: json["ar"],
+        en: json["en"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "ar": ar,
+        "en": en,
+      };
+}
+
+class Location {
+  final String? type;
+  final List<double>? coordinates;
+
+  Location({
+    this.type,
+    this.coordinates,
+  });
+
+  Location copyWith({
+    String? type,
+    List<double>? coordinates,
+  }) =>
+      Location(
+        type: type ?? this.type,
+        coordinates: coordinates ?? this.coordinates,
+      );
+
+  factory Location.fromJson(Map<String, dynamic> json) => Location(
+        type: json["type"],
+        coordinates: json["coordinates"] == null
+            ? []
+            : List<double>.from(json["coordinates"]!.map((x) => x?.toDouble())),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "type": type,
+        "coordinates": coordinates == null
+            ? []
+            : List<dynamic>.from(coordinates!.map((x) => x)),
+      };
+}
+
 class Customer {
   final String? id;
   final String? name;
   final String? email;
   final dynamic birthdate;
-  final dynamic gender;
+  final String? gender;
   final String? phoneNumber;
   final String? address;
   final String? referCode;
@@ -222,7 +418,7 @@ class Customer {
     String? name,
     String? email,
     dynamic birthdate,
-    dynamic gender,
+    String? gender,
     String? phoneNumber,
     String? address,
     String? referCode,
@@ -298,7 +494,7 @@ class Item {
   final int? quantity;
   final String? image;
   final double? price;
-  final dynamic salePrice;
+  final double? salePrice;
 
   Item({
     this.id,
@@ -313,7 +509,7 @@ class Item {
     int? quantity,
     String? image,
     double? price,
-    dynamic salePrice,
+    double? salePrice,
   }) =>
       Item(
         id: id ?? this.id,
@@ -327,8 +523,8 @@ class Item {
         id: json["id"],
         quantity: json["quantity"],
         image: json["image"],
-        price: json["price"],
-        salePrice: json["salePrice"],
+        price: json["price"]?.toDouble(),
+        salePrice: json["salePrice"]?.toDouble(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -340,45 +536,12 @@ class Item {
       };
 }
 
-class Location {
-  final String? type;
-  final List<double>? coordinates;
-
-  Location({
-    this.type,
-    this.coordinates,
-  });
-
-  Location copyWith({
-    String? type,
-    List<double>? coordinates,
-  }) =>
-      Location(
-        type: type ?? this.type,
-        coordinates: coordinates ?? this.coordinates,
-      );
-
-  factory Location.fromJson(Map<String, dynamic> json) => Location(
-        type: json["type"],
-        coordinates: json["coordinates"] == null
-            ? []
-            : List<double>.from(json["coordinates"]!.map((x) => x?.toDouble())),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "type": type,
-        "coordinates": coordinates == null
-            ? []
-            : List<dynamic>.from(coordinates!.map((x) => x)),
-      };
-}
-
 class Provider {
   final String? id;
-  final Description? providerName;
+  final BranchName? providerName;
   final String? providerImage;
   final String? providerCover;
-  final Description? description;
+  final BranchName? description;
   final DateTime? createdAt;
   final int? totalReviews;
   final int? reviewCount;
@@ -398,10 +561,10 @@ class Provider {
 
   Provider copyWith({
     String? id,
-    Description? providerName,
+    BranchName? providerName,
     String? providerImage,
     String? providerCover,
-    Description? description,
+    BranchName? description,
     DateTime? createdAt,
     int? totalReviews,
     int? reviewCount,
@@ -423,12 +586,12 @@ class Provider {
         id: json["id"],
         providerName: json["provider_name"] == null
             ? null
-            : Description.fromJson(json["provider_name"]),
+            : BranchName.fromJson(json["provider_name"]),
         providerImage: json["provider_image"],
         providerCover: json["provider_cover"],
         description: json["description"] == null
             ? null
-            : Description.fromJson(json["description"]),
+            : BranchName.fromJson(json["description"]),
         createdAt: json["createdAt"] == null
             ? null
             : DateTime.parse(json["createdAt"]),
@@ -447,34 +610,5 @@ class Provider {
         "totalReviews": totalReviews,
         "reviewCount": reviewCount,
         "view": view,
-      };
-}
-
-class Description {
-  final String? ar;
-  final String? en;
-
-  Description({
-    this.ar,
-    this.en,
-  });
-
-  Description copyWith({
-    String? ar,
-    String? en,
-  }) =>
-      Description(
-        ar: ar ?? this.ar,
-        en: en ?? this.en,
-      );
-
-  factory Description.fromJson(Map<String, dynamic> json) => Description(
-        ar: json["ar"],
-        en: json["en"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "ar": ar,
-        "en": en,
       };
 }

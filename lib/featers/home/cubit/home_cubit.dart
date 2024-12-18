@@ -10,6 +10,7 @@ class HomeCubit extends Cubit<HomeStates> {
   static HomeCubit get(context) => BlocProvider.of(context);
   List<RequestedOrderModel> requestedOrders = [];
   Future<void> getRequestedOrders() async {
+    print("getRequestedOrders....123");
     emit(HomeLoading());
     final result = await HomeDataHandler.getRequestedOrders();
     result.fold((l) {

@@ -11,6 +11,7 @@ import 'package:untitled2/common/translate/app_local.dart';
 import 'package:untitled2/common/translate/strings.dart';
 import 'package:untitled2/featers/home/Models/requested_order_model.dart';
 import 'package:untitled2/featers/home/cubit/home_cubit.dart';
+import 'package:untitled2/main.dart';
 
 import '../../../common/colors/theme_model.dart';
 import '../../../common/components.dart';
@@ -24,10 +25,11 @@ class MainHome extends StatefulWidget {
   const MainHome({super.key});
 
   @override
-  createState() => _MainHomeState();
+  createState() => MainHomeState();
 }
 
-class _MainHomeState extends State<MainHome> {
+class MainHomeState extends State<MainHome> {
+  // static void getRequestedOrders()
   late UserDataController con;
   late GoogleMapController _mapController;
   final Completer<GoogleMapController> _controller =
@@ -37,6 +39,19 @@ class _MainHomeState extends State<MainHome> {
     final GoogleMapController controller = await _controller.future;
     setState(() {
       _mapController = controller;
+    });
+  }
+
+  static Future<void> getCurrentOrders() async {
+    navigatorKey.currentState!.context
+        .read<HomeCubit>()
+        .getRequestedOrders()
+        .then((value) {
+      // Future.delayed(Duration(milliseconds: 500), () async {
+      //   emit(HomeLoaded());
+      //   MainHomeState().setState(() {});
+      // });
+      print("getRequestedOrders....................");
     });
   }
 
@@ -139,6 +154,7 @@ class _MainHomeState extends State<MainHome> {
 
   @override
   Widget build(BuildContext context) {
+    print("build--------");
     return BlocConsumer<HomeCubit, HomeStates>(
       listener: (context, state) {
         // TODO: implement listener
@@ -337,14 +353,14 @@ class BottomSheetDummyUI extends StatelessWidget {
                 '2.6km',
                 '12min',
                 '${requestedOrderModel.provider?.providerName?.ar}',
-                'مكة - حى الشوقيه',
+                '${requestedOrderModel.branch?.branchName?.ar} - ${requestedOrderModel.branch?.addressDescription ?? ""}',
                 context),
             orderDesign(
                 false,
                 '1.5km',
                 '8min',
                 '${requestedOrderModel.customer?.name}',
-                'مكة - حى الشوقيه',
+                '${requestedOrderModel.customer?.address}',
                 context),
           ],
         ));
@@ -473,7 +489,7 @@ class _MyDraggableSheetState extends State<MyDraggableSheet> {
             child: Column(
               children: [
                 Expanded(
-                  child: _timer != 0
+                  child: _timer != 0 && widget.orderId != null
                       ? CustomScrollView(
                           controller: scrollController,
                           slivers: [
@@ -490,9 +506,11 @@ class _MyDraggableSheetState extends State<MyDraggableSheet> {
                               fontSize: 17, fontWeight: FontWeight.w700),
                         )),
                 ),
-                if (_timer != 0) const SizedBox(height: 5),
-                if (_timer !=
-                    0) // Add some spacing between the icon and the timer
+                if (_timer != 0 && widget.orderId != null)
+                  const SizedBox(height: 5),
+                if (_timer != 0 &&
+                    widget.orderId !=
+                        null) // Add some spacing between the icon and the timer
                   Container(
                     margin: const EdgeInsets.only(
                         left: 20, right: 20, bottom: 5, top: 5),
@@ -511,18 +529,18 @@ class _MyDraggableSheetState extends State<MyDraggableSheet> {
                       ),
                     ),
                   ),
-                if (_timer != 0)
+                if (_timer != 0 && widget.orderId != null)
                   const SizedBox(
                     height: 3,
                   ),
-                if (_timer != 0)
+                if (_timer != 0 && widget.orderId != null)
                   Container(
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                         left: 8.0, right: 8.0, bottom: 4, top: 4),
                     color: Colors.red.shade400,
                     child: Text(
                       '${_timer.toString().padLeft(2, '0')} ${Strings.secondsAutoDecline.tr(context)}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                         color: Colors.white,
@@ -537,7 +555,7 @@ class _MyDraggableSheetState extends State<MyDraggableSheet> {
                       const EdgeInsets.only(left: 16.0, right: 16, bottom: 10),
                   child: bottom(
                     Strings.acceptOrder.tr(context),
-                    _timer != 0
+                    _timer != 0 && widget.orderId != null
                         ? () {
                             if (widget.orderId == null) return;
                             OrdersDataHandler.acceptOrder(

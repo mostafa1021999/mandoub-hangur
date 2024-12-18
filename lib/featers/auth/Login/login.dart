@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:untitled2/common/translate/app_local.dart';
@@ -80,11 +81,9 @@ class _LoginSignupScreenState extends StateMVC<LoginScreen> {
             ),
           ),
           Positioned(
-
             top: 200,
-            child:Container(
-
-            //  height: 250,
+            child: Container(
+              //  height: 250,
               padding: const EdgeInsets.all(20),
               width: MediaQuery.of(context).size.width - 40,
               margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -101,74 +100,79 @@ class _LoginSignupScreenState extends StateMVC<LoginScreen> {
               ),
               child: Container(
                 margin: const EdgeInsets.only(top: 20),
-                child: Column(
-                  children: [
-                    buildTextField(
-                      Icons.contact_mail_outlined,
-                      Strings.iqamaNumber.tr(context),
-                      false,
-                      TextInputType.number,
-                      isFocus1
-                          ? ThemeModel.mainColor
-                          : ThemeModel.of(context).greyFontColor,
-                      con.idController,
-                      10,
-                      idFocusNode,
-                      context,
-                    ),
-                    buildTextField(
-                      Icons.lock_outline,
-                      Strings.enterYourPassword.tr(context),
-                      true,
-                      TextInputType.text,
-                      isFocus2
-                          ? ThemeModel.mainColor
-                          : ThemeModel.of(context).greyFontColor,
-                      con.passwordController,
-                      20,
-                      passwordFocusNode,
-                      context,
-                    ),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: TextButton(
-                        onPressed: () {
-                          navigate(context, const ForgetPassword());
-                        },
-                        child: Text(
-                          Strings.forgotPassword.tr(context),
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: ThemeModel.of(context).textColor1),
-                        ),
+                child: AutofillGroup(
+                  // onDisposeAction: AutofillContextAction.cancel,
+                  child: Column(
+                    children: [
+                      buildTextField(
+                        Icons.contact_mail_outlined,
+                        Strings.iqamaNumber.tr(context),
+                        false,
+                        TextInputType.number,
+                        isFocus1
+                            ? ThemeModel.mainColor
+                            : ThemeModel.of(context).greyFontColor,
+                        con.idController,
+                        10,
+                        idFocusNode,
+                        context,
                       ),
-                    ),
-                    con.loading
-                        ? Center(
-                        child: SpinKitWave(color: Colors.grey.shade600, size: 25.0))
-                        : Center(
-                      child: Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 35),
-                        height: 70,
-                        padding: const EdgeInsets.all(15),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                        child: bottom(
-                          Strings.login.tr(context),
-                              () {
-                            con.login(context);
+                      buildTextField(
+                        Icons.lock_outline,
+                        Strings.enterYourPassword.tr(context),
+                        true,
+                        TextInputType.text,
+                        isFocus2
+                            ? ThemeModel.mainColor
+                            : ThemeModel.of(context).greyFontColor,
+                        con.passwordController,
+                        20,
+                        passwordFocusNode,
+                        context,
+                      ),
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: TextButton(
+                          onPressed: () {
+                            TextInput.finishAutofillContext();
+                            navigate(context, const ForgetPassword());
                           },
+                          child: Text(
+                            Strings.forgotPassword.tr(context),
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: ThemeModel.of(context).textColor1),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                      con.loading
+                          ? Center(
+                              child: SpinKitWave(
+                                  color: Colors.grey.shade600, size: 25.0))
+                          : Center(
+                              child: Container(
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 35),
+                                height: 70,
+                                padding: const EdgeInsets.all(15),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
+                                child: bottom(
+                                  Strings.login.tr(context),
+                                  () {
+                                    con.login(context);
+                                  },
+                                ),
+                              ),
+                            ),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
-
         ],
       ),
     );

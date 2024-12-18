@@ -177,6 +177,11 @@ Widget buildTextField(IconData icon, String hintText, bool isPassword, type,
     builder: (context, setState) => Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: TextFormField(
+        autofillHints: [
+          AutofillHints.name,
+          AutofillHints.password,
+          AutofillHints.email,
+        ],
         validator: isPassword
             ? (value) {
                 if (!isPasswordComplex(value!)) {
